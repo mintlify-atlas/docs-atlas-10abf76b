@@ -1,0 +1,118 @@
+{
+  "projectType": "frontend",
+  "projectName": "Color Palette",
+  "projectDescription": "A free, browser-based color palette generator with color theory relationships, accessibility tools, and export to code and design app formats.",
+  "theme": "willow",
+  "primaryColor": "#6366f1",
+  "lightColor": "#a5b4fc",
+  "darkColor": "#4338ca",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Palette Tools",
+            "pages": [
+              "guides/generating-palettes",
+              "guides/color-relationships",
+              "guides/presets",
+              "guides/locking-colors"
+            ]
+          },
+          {
+            "group": "Color Tools",
+            "pages": [
+              "guides/color-editing",
+              "guides/color-variations",
+              "guides/color-naming",
+              "guides/extract-from-image",
+              "guides/eyedropper"
+            ]
+          },
+          {
+            "group": "Views",
+            "pages": [
+              "guides/gradient-generator",
+              "guides/preview-mode"
+            ]
+          },
+          {
+            "group": "Accessibility",
+            "pages": [
+              "guides/contrast-checker",
+              "guides/color-blindness-simulation",
+              "guides/harmony-score"
+            ]
+          },
+          {
+            "group": "Save & Export",
+            "pages": [
+              "guides/saving-palettes",
+              "guides/exporting-palettes",
+              "guides/sharing-palettes",
+              "guides/palette-history"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/keyboard-shortcuts",
+              "reference/export-formats",
+              "reference/color-formats"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Color theory palette generation (complementary, analogous, triadic, tetradic, split-complementary, monochromatic)",
+    "Lock colors to keep them while rerolling others",
+    "Copy colors in 6 formats: hex, RGB, HSL, CSS variable, Tailwind, SCSS",
+    "Export to code formats (CSS, JSON, Tailwind, SCSS) and art app formats (ASE, ACO, GPL, Procreate, Paint.NET)",
+    "WCAG 2.1 contrast checker with AA/AAA/AA18 compliance levels",
+    "Color blindness simulation (deuteranopia, protanopia, tritanopia, achromatopsia)",
+    "Color naming from 4,000+ entry database using Oklab perceptual distance",
+    "Gradient generator with linear gradients and multiple export formats",
+    "Extract dominant colors from images using k-means clustering",
+    "Full-screen palette preview with UI mockup and typography modes",
+    "Color variations (tints, shades, tones) for any palette color",
+    "Full keyboard control — every action has a shortcut",
+    "Save palettes with tags and collections in localStorage",
+    "Undo/redo history with session palette timeline",
+    "Drag-to-reorder palette colors",
+    "8 quick palette presets (pastel, neon, earth, jewel, monochrome, warm, cool, muted)",
+    "Up to 10 colors per palette (vs. competitors' 5-color free limit)",
+    "No accounts, no server, no analytics — everything runs in the browser"
+  ],
+  "publicApiSurface": [
+    "generateRelatedColor(referenceColors, relationship, fallbackColor) — generate a color using a color theory relationship",
+    "generatePresetPalette(preset, count) — generate a palette from a named preset",
+    "calculateHarmonyScore(colors) — score palette harmony with relationship detection",
+    "formatColor(hex, format, varName) — format a hex color in hex/rgb/hsl/css-var/tailwind/scss",
+    "hexToHsl(hex) / hslToHex(hsl) — convert between hex and HSL",
+    "hexToRgb(hex) — convert hex to RGB",
+    "hexToOklab(hex) / hexToOklch(hex) / oklchToHex(oklch) — convert to/from Oklab/Oklch perceptual color spaces",
+    "contrastRatio(hex1, hex2) — WCAG 2.1 contrast ratio",
+    "wcagLevel(ratio) — WCAG compliance level (aaa/aa/aa18/fail)",
+    "relativeLuminance(hex) — WCAG 2.1 relative luminance",
+    "generateTints(hex, count) / generateShades(hex, count) / generateTones(hex, count) — color variations",
+    "exportPalette(colors, format) — export palette in code or art app format",
+    "savePalette(colors, name, tags, collection) — save palette to localStorage",
+    "getSavedPalettes() — retrieve saved palettes from localStorage",
+    "COLOR_RELATIONSHIPS — array of color relationship definitions",
+    "PALETTE_PRESETS — array of palette preset definitions",
+    "COLOR_FORMATS — array of copy format definitions",
+    "EXPORT_FORMATS — array of export format definitions",
+    "APP_INFO — array of art app import instructions",
+    "SHORTCUT_GROUPS — grouped keyboard shortcut definitions"
+  ]
+}

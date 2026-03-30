@@ -1,0 +1,166 @@
+---
+title: "Saving palettes"
+description: "Save palettes to your browser, organize them into collections, filter by tag, and export your entire library as a JSON backup."
+---
+
+Saved palettes persist in your browser's `localStorage` and survive page refreshes. You can name them, tag them, assign them to collections, search across them, and edit them inline at any time.
+
+## Opening the save dialog
+
+Press `S` to open the **save palette** dialog. The dialog closes on `Esc` or the **cancel** button. Press `Enter` (when focus is not inside the tag input) to save immediately.
+
+## Naming a palette
+
+The **name** field is optional. If you leave it blank, the palette is saved with a timestamped name in the form `Palette MM/DD/YYYY, HH:MM:SS AM/PM`. You can rename it later from the open dialog.
+
+## Adding tags
+
+The **tags** field uses a pill input. To add a tag:
+
+- Type a tag name and press `Enter` or `,` (comma).
+- Existing tags from your library appear as autocomplete suggestions.
+- Tags are trimmed, lowercased, and capped at **24 characters**.
+- Tags are stored in alphabetical order regardless of the order you entered them.
+
+<Note>
+  Commas in tag names are not supported — a comma always commits the current input as a new tag.
+</Note>
+
+## Assigning to a collection
+
+Choose a collection from the **collection** dropdown. Collections let you group related palettes and filter them in the open dialog using the collection tab strip.
+
+### Creating a new collection inline
+
+Click the **+ new** button next to the collection dropdown to create a collection without leaving the save dialog:
+
+<Steps>
+  <Step title="Click + new">
+    A text input appears in place of the button.
+  </Step>
+  <Step title="Type the collection name and press Enter">
+    The collection is saved immediately, auto-selected in the dropdown, and available for future saves.
+  </Step>
+  <Step title="Press Escape to cancel">
+    Dismisses the input without creating a collection.
+  </Step>
+</Steps>
+
+<Tip>
+  Clicking outside the new-collection input (blur) also commits it, so you can tab away to continue filling the form.
+</Tip>
+
+## Storage
+
+Palettes are written to two `localStorage` keys:
+
+| Key | Contents |
+|-----|----------|
+| `color-palette:saved` | JSON array of `SavedPalette` objects |
+| `color-palette:collections` | JSON array of `PaletteCollection` objects |
+
+Each `SavedPalette` has a UUID `id`, `name`, `colors` (array of hex strings), `savedAt` (ISO timestamp), `tags` (array of strings), and an optional `collection` name.
+
+## Opening saved palettes
+
+Press `O` to open the **open palette** dialog. From here you can browse, search, filter, edit, load, and delete palettes.
+
+### Searching
+
+Type in the search field to filter by palette name or tag. A clear button (`×`) appears when the field has content. The list updates instantly as you type.
+
+### Filtering by tag
+
+All tags that appear in the current filtered set are shown as clickable chips above the palette list. Click a chip to activate that tag filter — only palettes that have **all** active tag filters are shown. Click a chip again to deactivate it. When more than one tag filter is active, a **clear tags** button appears.
+
+### Collection tabs
+
+Collection tabs appear at the top of the dialog:
+
+- **all** — shows all palettes regardless of collection.
+- **uncategorized** — shows palettes with no collection assigned (only visible when at least one collection exists and some palettes have none).
+- One tab per named collection.
+- **+ new** — creates a new collection directly from the open dialog.
+
+Click a tab to filter the palette list to that collection. Tag filters are automatically pruned when switching tabs if a tag no longer appears in the new view.
+
+### Keyboard navigation
+
+When focus is not in the search field or any input, use the arrow keys and action keys:
+
+| Key | Action |
+|-----|--------|
+| `↑` / `↓` | Move selection up/down |
+| `Enter` | Load the selected palette |
+| `Delete` / `Backspace` | Delete the selected palette |
+| `Esc` | Close the dialog |
+
+## Inline editing
+
+Each palette row has a pencil icon button that enters **inline edit mode** for that palette:
+
+- Rename the palette.
+- Add or remove tags.
+- Change the collection.
+
+Click **done** (or press `Enter`) to save changes, or **cancel** to discard them.
+
+### Renaming a collection
+
+Double-click any collection tab to rename it inline. Press `Enter` to confirm or `Esc` to cancel. Renaming a collection updates all palettes assigned to it automatically. Collection names must be unique — attempting to rename to an existing name shows an error notification.
+
+### Deleting a collection
+
+Click the `×` on a collection tab to delete it. A confirmation dialog shows how many palettes will be moved to uncategorized. Palettes themselves are not deleted when a collection is removed.
+
+## Deleting a palette
+
+Click the trash icon on any palette row, or press `Delete`/`Backspace` while the palette is selected with keyboard navigation. The item fades out before being removed.
+
+## Export and import all palettes
+
+The open dialog footer includes **export** and **import** buttons for backing up and restoring your entire library.
+
+### Exporting
+
+Click **export** to download a JSON file named `color-palettes-YYYY-MM-DD.json`. The file has the following structure:
+
+```json
+{
+  "version": "1.0",
+  "exportedAt": "2024-01-15T10:30:00.000Z",
+  "palettes": [...],
+  "collections": [...]
+}
+```
+
+### Importing
+
+Click **import** to select a `.json` file exported from Color Palette. The app reads the file, validates each palette entry, and merges it with your existing library.
+
+**Merge behavior:**
+
+- Palettes are matched by their UUID `id`. If a palette with the same `id` already exists, it is **skipped**.
+- Collections are matched by name. Duplicate collection names are not added.
+- The notification after import reports how many palettes were added and how many duplicates were skipped.
+
+<Warning>
+  The import dialog only accepts `.json` files in the Color Palette export format. Arbitrary JSON files will be rejected with an error message.
+</Warning>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Exporting palettes" icon="file-down" href="/guides/exporting-palettes">
+    Download your palette as CSS, JSON, Tailwind config, or art app formats.
+  </Card>
+  <Card title="Sharing palettes" icon="link" href="/guides/sharing-palettes">
+    Copy a share link that encodes your palette directly in the URL.
+  </Card>
+  <Card title="Palette history" icon="clock-rotate-left" href="/guides/palette-history">
+    Browse and restore every palette state from the current session.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Full shortcut reference including S, O, and navigation keys.
+  </Card>
+</CardGroup>

@@ -1,0 +1,104 @@
+---
+title: 'Contrast checker'
+description: 'Verify WCAG accessibility compliance for your palette colors against standard backgrounds and against each other.'
+---
+
+The contrast checker evaluates every color in your palette against WCAG 2.1 contrast requirements. It tells you whether your colors are readable as text on common backgrounds — and whether palette colors have enough contrast when placed next to each other.
+
+Press <kbd>K</kbd> to toggle the contrast checker panel open or closed.
+
+## WCAG contrast levels
+
+The [WCAG 2.1 contrast ratio](https://www.w3.org/TR/WCAG21/#contrast-minimum) is calculated from the relative luminance of two colors using the formula `(L1 + 0.05) / (L2 + 0.05)`, where `L1` is the lighter color's luminance. Ratios range from 1:1 (identical colors) to 21:1 (black on white).
+
+<AccordionGroup>
+  <Accordion title="AAA — 7:1 or higher (enhanced)">
+    The highest WCAG level. Text at this ratio is highly readable for users with low vision. Recommended for body text and anything users will read at length.
+  </Accordion>
+  <Accordion title="AA — 4.5:1 or higher (standard)">
+    The minimum required ratio for normal-sized body text under WCAG 2.1 Level AA compliance. This is the baseline for most accessibility requirements.
+  </Accordion>
+  <Accordion title="AA18 — 3:1 or higher (large text only)">
+    Acceptable only for large text (18pt+ regular or 14pt+ bold). Not sufficient for small body text or UI labels. Shown in the checker as `aa18`.
+  </Accordion>
+  <Accordion title="Fail — below 3:1 (not accessible)">
+    The color combination does not meet any WCAG threshold. Avoid using these color pairs for text, icons, or any content that needs to be read. Shown in the checker as `fail`.
+  </Accordion>
+</AccordionGroup>
+
+## Two views
+
+When 2 or more colors are in your palette, the contrast checker shows a tab bar with two views. Press <kbd>Shift</kbd>+<kbd>K</kbd> to cycle between them without using the mouse.
+
+<Note>
+  The tab bar fades in automatically once you have 2 or more colors. With a single color, only the "vs backgrounds" view is available.
+</Note>
+
+### vs backgrounds
+
+Each palette color gets a card showing its contrast against three standard theme backgrounds:
+
+| Background | Hex value | Description |
+|---|---|---|
+| light | `#f5f5f5` | Near-white surface |
+| gray | `#777777` | Mid-tone surface |
+| dark | `#1a1a1a` | Near-black surface |
+
+Each card shows a live "Aa" text preview rendered in the palette color on each background, along with the numeric contrast ratio and its WCAG level badge.
+
+Below each card's swatches, a plain-language summary describes the color's accessibility at a glance — for example:
+
+> excellent on light · readable on gray · not suitable on dark
+
+This sentence is built from `describeContrast` in `src/helpers/contrast.ts`, which groups backgrounds by quality tier and joins them into readable prose. If a color passes AAA on every background, it outputs "excellent readability on all backgrounds". If it fails every background, it outputs a warning to adjust the color.
+
+### vs each other
+
+A matrix showing the contrast ratio between every pair of colors in the palette. Each cell in the upper triangle of the matrix displays the ratio and WCAG level for that pair. Diagonal cells (a color against itself, always 1:1) show `—`.
+
+This view is useful for checking whether colors you plan to use together — as text and background, for example — have enough contrast between them.
+
+## Using the contrast checker to build accessible palettes
+
+<Steps>
+  <Step title="Open the checker">
+    Press <kbd>K</kbd> to expand the panel. Start in the "vs backgrounds" view.
+  </Step>
+  <Step title="Check every color against light and dark">
+    A palette typically needs at least one color that passes AA on a light background (for dark text on light UI) and at least one that passes AA on a dark background (for light text on dark UI). Look for `aa` or `aaa` badges.
+  </Step>
+  <Step title="Identify problem colors">
+    Colors with `fail` on all backgrounds are unsafe as text colors anywhere. Either adjust their lightness in the [color editor](/guides/color-editing) or use them only as decorative fills — not text or icons.
+  </Step>
+  <Step title="Check color pairs">
+    Switch to "vs each other" with <kbd>Shift</kbd>+<kbd>K</kbd> and verify that any colors you intend to layer (background + foreground, button + label) meet at least the `aa` threshold.
+  </Step>
+  <Step title="Iterate">
+    Use the [color editor](/guides/color-editing) or [color variations](/guides/color-variations) to adjust lightness until all critical pairs meet your target level. The contrast checker updates in real time.
+  </Step>
+</Steps>
+
+<Tip>
+  Mid-tones (lightness 40–60%) almost always fail against gray backgrounds and often fail against each other. Shift colors toward the light end (L > 70%) or dark end (L < 30%) to maximize contrast range within a palette.
+</Tip>
+
+## Keyboard shortcuts
+
+| Shortcut | Action |
+|---|---|
+| <kbd>K</kbd> | Toggle contrast checker open / closed |
+| <kbd>Shift</kbd>+<kbd>K</kbd> | Cycle between "vs backgrounds" and "vs each other" tabs (requires 2+ colors) |
+
+## Related
+
+<CardGroup cols={3}>
+  <Card title="Color editing" icon="sliders" href="/guides/color-editing">
+    Adjust individual colors to hit contrast targets.
+  </Card>
+  <Card title="Color variations" icon="palette" href="/guides/color-variations">
+    Generate tints, shades, and tones to find accessible variants.
+  </Card>
+  <Card title="Color blindness simulation" icon="eye" href="/guides/color-blindness-simulation">
+    Test how your palette looks under different vision types.
+  </Card>
+</CardGroup>

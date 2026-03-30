@@ -1,0 +1,279 @@
+---
+title: "Exporting palettes"
+description: "Download your palette as CSS variables, JSON, Tailwind config, SCSS, or native art app formats for Photoshop, Procreate, GIMP, Krita, and more."
+---
+
+Press `E` to open the export dialog. Formats are split into two categories: **code** formats you copy or download for use in a codebase, and **art app** formats you import directly into design software.
+
+<Note>
+  `E` is context-aware. In the gradient view it opens the gradient export. In the palette view it opens the palette export described on this page.
+</Note>
+
+## Code formats
+
+Code formats produce text output. You can copy the text to the clipboard or download it as a file.
+
+### CSS Variables
+
+**Extension:** `.css`
+
+Generates a `:root` block with numbered custom properties, one per color:
+
+```css
+:root {
+  --color-1: #ff5733;
+  --color-2: #3498db;
+  --color-3: #2ecc71;
+}
+```
+
+Use these properties anywhere in your stylesheet with `var(--color-1)`.
+
+### JSON
+
+**Extension:** `.json`
+
+Outputs a simple JSON object with a `colors` array:
+
+```json
+{
+  "colors": [
+    "#ff5733",
+    "#3498db",
+    "#2ecc71"
+  ]
+}
+```
+
+Useful for piping into build tools, design tokens pipelines, or any script that consumes structured data.
+
+### Tailwind Config
+
+**Extension:** `.js`
+
+Generates a full `tailwind.config.js` snippet with your colors registered under `theme.extend.colors`:
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        'color-1': '#ff5733',
+        'color-2': '#3498db',
+        'color-3': '#2ecc71'
+      }
+    }
+  }
+}
+```
+
+Copy this into your project's Tailwind config (or merge it with an existing one) to use classes like `bg-color-1` or `text-color-2`.
+
+### SCSS Variables
+
+**Extension:** `.scss`
+
+Outputs one Sass variable per color:
+
+```scss
+$color-1: #ff5733;
+$color-2: #3498db;
+$color-3: #2ecc71;
+```
+
+Import the file into your SCSS project with `@use` or `@import` to reference the variables throughout your stylesheets.
+
+---
+
+## Art app formats
+
+Art app formats produce binary or structured files you import directly into design and illustration software. Each format has a **download** button — copy-to-clipboard is not available for binary files.
+
+<AccordionGroup>
+  <Accordion title="Adobe ASE (.ase) — Photoshop, Illustrator, Clip Studio Paint">
+    **Adobe Swatch Exchange** is a binary format compatible with the Adobe Creative Suite and several third-party apps.
+
+    **Compatible apps:** Photoshop, Illustrator, Clip Studio Paint
+
+    **Import in Photoshop / Illustrator:**
+
+    <Steps>
+      <Step title="Download the .ase file">
+        Click the download button in the export dialog.
+      </Step>
+      <Step title="Open the Swatches panel">
+        Go to **Window > Swatches**.
+      </Step>
+      <Step title="Import the file">
+        Click the panel menu and choose **Import Swatches** (or **Open Swatch Library > Other Library**), then select your `.ase` file.
+      </Step>
+    </Steps>
+
+    **Import in Clip Studio Paint:**
+
+    <Steps>
+      <Step title="Download the .ase file">
+        Click the download button in the export dialog.
+      </Step>
+      <Step title="Open the Color Set panel">
+        Go to **Window > Color Set**.
+      </Step>
+      <Step title="Import the color set">
+        Click **Import color set** in the panel menu and select your `.ase` file.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="Adobe ACO (.aco) — Photoshop">
+    **Adobe Color Swatch** is Photoshop's native swatch format. The exported file uses the ACO version 2 format, which includes color names (`Color 1`, `Color 2`, etc.) stored as UTF-16BE strings alongside the RGB values.
+
+    **Compatible apps:** Photoshop
+
+    **Import steps:**
+
+    <Steps>
+      <Step title="Download the .aco file">
+        Click the download button in the export dialog.
+      </Step>
+      <Step title="Open the Swatches panel">
+        Go to **Window > Swatches**.
+      </Step>
+      <Step title="Load the swatches">
+        Click the panel menu and choose **Import Swatches**, then select your `.aco` file.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="Procreate Swatches (.swatches) — Procreate">
+    The `.swatches` file is a ZIP archive containing a `Swatches.json` file. Colors are stored in HSB (hue, saturation, brightness) format as required by Procreate.
+
+    **Compatible apps:** Procreate (iPad / iPhone)
+
+    **Import steps:**
+
+    <Steps>
+      <Step title="Download the .swatches file">
+        Click the download button in the export dialog. Save it to the **Files** app on your iPad or iPhone.
+      </Step>
+      <Step title="Open the Colors panel in Procreate">
+        Tap **Colors** (the circle icon in the top-right corner).
+      </Step>
+      <Step title="Import the palette">
+        Tap **Palettes**, then tap **+** and choose **New from file**. Select your `.swatches` file.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="GIMP Palette (.gpl) — GIMP, Krita">
+    The `.gpl` format is a plain-text palette file supported by GIMP and Krita. Each color is stored as an RGB triplet followed by the hex value.
+
+    **Compatible apps:** GIMP, Krita
+
+    **Import in GIMP:**
+
+    <Steps>
+      <Step title="Download the .gpl file">
+        Click the download button in the export dialog.
+      </Step>
+      <Step title="Place the file in the GIMP palettes folder">
+        Copy the `.gpl` file to `~/.config/GIMP/palettes/` on Linux/macOS, or the equivalent `GIMP\palettes\` folder on Windows.
+      </Step>
+      <Step title="Restart GIMP">
+        Reopen GIMP to load the new palette.
+      </Step>
+      <Step title="Find the palette">
+        Go to **Windows > Dockable Dialogs > Palettes** and locate your palette by name.
+      </Step>
+    </Steps>
+
+    **Import in Krita:**
+
+    <Steps>
+      <Step title="Download the .gpl file">
+        Click the download button in the export dialog.
+      </Step>
+      <Step title="Open the resource folder">
+        Go to **Settings > Manage Resources > Open Resource Folder**.
+      </Step>
+      <Step title="Place the file">
+        Copy the `.gpl` file into the `palettes/` subfolder.
+      </Step>
+      <Step title="Restart Krita">
+        Reopen Krita for the palette to appear in the palette docker.
+      </Step>
+    </Steps>
+  </Accordion>
+
+  <Accordion title="Paint.NET Palette (.txt) — Paint.NET">
+    Paint.NET palettes are plain text files with one `AARRGGBB` hex value per line. `AA` is the alpha channel (`FF` = fully opaque). Comment lines start with `;`.
+
+    **Compatible apps:** Paint.NET
+
+    **Import steps:**
+
+    <Steps>
+      <Step title="Download the .txt file">
+        Click the download button in the export dialog.
+      </Step>
+      <Step title="Place the file in the palettes folder">
+        Copy the `.txt` file to `Documents/Paint.NET User Files/Palettes/`.
+      </Step>
+      <Step title="Restart Paint.NET">
+        Reopen Paint.NET. The palette appears in the palette list.
+      </Step>
+    </Steps>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Image export (PNG / SVG)
+
+In addition to code and art app formats, you can export a visual image of your palette. Press `E` in the palette view to open the export dialog, then switch to the **image** tab.
+
+### Layout options
+
+| Layout | Description |
+|--------|-------------|
+| Horizontal | Color bars side by side in a single row |
+| Vertical | Color bars stacked in a single column |
+| Grid | Colors arranged in a square-ish grid |
+| Circles | Circular swatches arranged in rows of up to 5 |
+
+### Label options
+
+| Option | Description |
+|--------|-------------|
+| None | No labels on the image |
+| Hex | Shows the hex value on each color |
+| Names | Shows the nearest color name on each color |
+
+### Size options
+
+| Size | Width |
+|------|-------|
+| Small | 800 px |
+| Medium | 1200 px |
+| Large | 1920 px |
+
+Export as **PNG** (raster, Canvas API) or **SVG** (vector, scales without loss).
+
+---
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Export formats reference" icon="file-code" href="/reference/export-formats">
+    Technical details for every supported export format.
+  </Card>
+  <Card title="Saving palettes" icon="floppy-disk" href="/guides/saving-palettes">
+    Save palettes to your browser library and organize with collections and tags.
+  </Card>
+  <Card title="Sharing palettes" icon="link" href="/guides/sharing-palettes">
+    Copy a URL that encodes your palette and share it directly.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Full shortcut reference including E for export.
+  </Card>
+</CardGroup>

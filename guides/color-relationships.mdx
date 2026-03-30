@@ -1,0 +1,154 @@
+---
+title: 'Color relationships'
+description: 'Choose from 7 relationship modes to control how generated colors relate to each other on the color wheel.'
+---
+
+Color relationships define the hue logic used when adding or rerolling colors. The active relationship affects every palette operation — adding a color, rerolling all, or rerolling a single swatch.
+
+## Cycling relationships
+
+Press `Q` to step forward through the 7 available relationships in order:
+
+```
+random → complementary → analogous → triadic → tetradic → split-complementary → monochromatic → (back to random)
+```
+
+You can also select a relationship directly from the relationship selector in the toolbar.
+
+<Note>
+Changing the relationship immediately regenerates all unlocked colors to match the new mode. Locked colors are preserved as anchors.
+</Note>
+
+## The 7 relationships
+
+<AccordionGroup>
+  <Accordion title="Random">
+    **Any random color.** Hue, saturation, and lightness are all chosen independently at random across the full spectrum. No reference color is used.
+
+    This is the default mode. Use it when you want an unconstrained, free-form palette.
+
+    ```
+    hue:        0–360 (fully random)
+    saturation: 0–100 (fully random)
+    lightness:  0–100 (fully random)
+    ```
+  </Accordion>
+
+  <Accordion title="Complementary">
+    **Exactly opposite on the color wheel.** The generated color is placed at `base hue + 180°`, creating strong contrast pairs.
+
+    Small jitter is applied to saturation (±15) and lightness (±20) so complementary palettes feel varied rather than flat.
+
+    ```
+    hue offset:         +180°
+    saturation range:   base ± 15, clamped 25–90
+    lightness range:    base ± 20, clamped 25–75
+    ```
+
+    Good for: bold two-color contrast, call-to-action pairings.
+  </Accordion>
+
+  <Accordion title="Analogous">
+    **Adjacent colors on the wheel.** Each generated hue is offset from the reference by a random amount within ±30°, producing a cohesive, low-contrast range.
+
+    ```
+    hue offset:         random in [-30°, +30°]
+    saturation range:   base ± 10, clamped 30–85
+    lightness range:    base ± 15, clamped 30–70
+    ```
+
+    Good for: natural, harmonious palettes like sunsets or foliage.
+  </Accordion>
+
+  <Accordion title="Triadic">
+    **Equally spaced at 120° intervals.** Each color is placed at either `base + 120°` or `base + 240°`, chosen at random.
+
+    ```
+    hue offset:         +120° or +240° (random pick)
+    saturation range:   base ± 20, clamped 35–85
+    lightness range:    base ± 25, clamped 25–75
+    ```
+
+    Good for: vibrant, balanced palettes with three distinct hue families.
+  </Accordion>
+
+  <Accordion title="Tetradic">
+    **Square scheme — 4 hues 90° apart.** Each color is placed at `base + 90°`, `+180°`, or `+270°`, chosen at random.
+
+    ```
+    hue offsets:        +90°, +180°, or +270° (random pick)
+    saturation range:   base ± 15, clamped 30–80
+    lightness range:    base ± 20, clamped 30–70
+    ```
+
+    Good for: rich, complex palettes with strong hue diversity. Works best with 4 or more colors.
+  </Accordion>
+
+  <Accordion title="Split complementary">
+    **The complement plus its two neighbors.** Instead of the exact opposite hue, colors are placed at `base + 150°` or `base + 210°` — straddling the complement by ±30°.
+
+    This gives contrast similar to complementary but with more visual tension and variety.
+
+    ```
+    hue offsets:        +150° or +210° (random pick)
+    saturation range:   base ± 12, clamped 35–85
+    lightness range:    base ± 18, clamped 30–70
+    ```
+
+    Good for: palettes that need complementary contrast without feeling too symmetrical.
+  </Accordion>
+
+  <Accordion title="Monochromatic">
+    **Same hue throughout — vary saturation and lightness only.** All generated colors share the base hue exactly. Only `s` and `l` are varied with wide jitter.
+
+    ```
+    hue offset:         0° (hue is preserved exactly)
+    saturation range:   base ± 40, clamped 15–95
+    lightness range:    base ± 50, clamped 15–85
+    ```
+
+    Good for: single-hue palettes, tonal scales, brand color families.
+  </Accordion>
+</AccordionGroup>
+
+## Locked colors as anchors
+
+When one or more colors are locked, their hex values are averaged (using circular mean for hue) to produce a single reference `HSL`. New and rerolled colors are generated relative to that reference.
+
+When no colors are locked and the relationship is not `random`, a single random seed color is generated internally and used as the anchor. The seed is placed at the first unlocked position in the palette so you can see what it looks like; all other unlocked slots are generated relative to it.
+
+<Info>
+Lock a color to "pin" the hue anchor. Everything else will be generated in relation to that fixed hue. See [Locking colors](/guides/locking-colors) for details.
+</Info>
+
+## Relationship detection and harmony score
+
+The harmony scorer can detect which relationship a palette best matches and displays it as a label. Detection uses pairwise hue gap analysis:
+
+- All pairwise gaps < 20° → **monochromatic**
+- All pairwise gaps < 60° → **analogous**
+- Two colors, gap ≈ 180° → **complementary**
+- Three colors, consecutive gaps ≈ 120° each → **triadic**
+- Three colors, one small gap and two large equal gaps → **split-complementary**
+- Four colors, consecutive gaps ≈ 90° each → **tetradic**
+
+The tolerance for each detection rule is ±22°. Palettes that don't match a named relationship are scored as "varied", "inconsistent", or "discordant" depending on their overall hue organization.
+
+See [Harmony score](/guides/harmony-score) for more on scoring.
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Generating palettes" icon="palette" href="/guides/generating-palettes">
+    How to add, reroll, and manage palette colors.
+  </Card>
+  <Card title="Locking colors" icon="lock" href="/guides/locking-colors">
+    Lock colors to use them as relationship anchors.
+  </Card>
+  <Card title="Harmony score" icon="chart-bar" href="/guides/harmony-score">
+    How the palette is scored and which relationship is detected.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Complete list of all keyboard shortcuts.
+  </Card>
+</CardGroup>

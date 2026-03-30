@@ -1,0 +1,87 @@
+---
+title: "Eyedropper"
+description: "Pick any color from your screen and add it to your palette. Uses the native EyeDropper API on Chromium, with an OS color picker fallback on other browsers."
+---
+
+The eyedropper lets you sample a color from anywhere visible on your screen — a website, a design file, a photo, or any other application — and add it directly to your palette.
+
+## Using the eyedropper
+
+<Tabs>
+  <Tab title="Keyboard">
+    Press `I` from the palette view to activate the eyedropper. Focus returns to the app automatically after you pick a color or cancel.
+  </Tab>
+  <Tab title="Mouse">
+    Click the **pipette** button in the toolbar. The button is disabled when your palette is at the 10-color maximum.
+  </Tab>
+</Tabs>
+
+## Browser support
+
+The behavior differs by browser, based on the availability of the native `EyeDropper` API:
+
+<AccordionGroup>
+  <Accordion title="Chromium browsers (Chrome, Edge, Arc, Brave)">
+    Color Palette uses the native **`EyeDropper` API** (`window.EyeDropper`). When activated:
+
+    1. The browser overlays a magnified loupe cursor on the entire screen.
+    2. Click any pixel — on a webpage, a desktop app, or a video — to sample its color.
+    3. The picked `sRGBHex` value is returned and added to your palette immediately.
+    4. Press `Escape` at any time to cancel without adding a color.
+
+    The loupe works outside the browser window, so you can pick colors from design tools, images on your desktop, and other applications.
+  </Accordion>
+  <Accordion title="Firefox and Safari">
+    The `EyeDropper` API is not available in Firefox or Safari. Color Palette falls back to a **hidden `<input type="color">` element** that opens your operating system's native color picker dialog.
+
+    The OS color picker is limited to selecting colors within its own interface — it cannot sample arbitrary screen pixels the way the Chromium loupe can. Use it to enter a known hex value or choose from the OS color grid.
+  </Accordion>
+</AccordionGroup>
+
+<Info>
+  Browser support is detected at runtime using `'EyeDropper' in window`. No user agent sniffing is involved — if the API is present, the native loupe is used; otherwise the OS fallback is used.
+</Info>
+
+## Limit
+
+The eyedropper button and the `I` shortcut are both disabled when your palette already contains **10 colors** (the maximum). Remove a color first, or use the [Extract view](/guides/extract-from-image) to replace the entire palette from an image.
+
+## Eyedropper in edit mode
+
+When you are editing a color inline (hex input is open) on a Chromium browser, a **pipette icon** appears inside the edit input. Clicking it launches the native `EyeDropper` API and fills the hex input with the sampled color — giving you a live preview before you confirm.
+
+<Steps>
+  <Step title="Enter edit mode">
+    Click a hex label or press `Shift`+`Alt`+`1`–`9`,`0` to open the inline hex input for a color.
+  </Step>
+  <Step title="Click the pipette icon">
+    The pipette icon appears inside the input on Chromium. Click it to launch the screen color picker.
+  </Step>
+  <Step title="Sample a color">
+    Click any pixel on screen. The hex input fills with the sampled value and the palette item updates live.
+  </Step>
+  <Step title="Confirm or cancel">
+    Press `Enter` to apply the picked color, or `Escape` to discard it.
+  </Step>
+</Steps>
+
+<Warning>
+  The pipette icon in edit mode is only visible on Chromium-based browsers. On Firefox and Safari, use the main eyedropper tool (press `I` or click the toolbar button) to add colors, then edit them after the fact.
+</Warning>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Color editing" icon="pen" href="/guides/color-editing">
+    Edit palette colors inline — the eyedropper integrates directly into edit mode on Chromium.
+  </Card>
+  <Card title="Extract from image" icon="image" href="/guides/extract-from-image">
+    Extract up to 10 dominant colors from any image file.
+  </Card>
+  <Card title="Generating palettes" icon="palette" href="/guides/generating-palettes">
+    Generate palettes using color theory relationships.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Full shortcut reference — I activates the eyedropper.
+  </Card>
+</CardGroup>

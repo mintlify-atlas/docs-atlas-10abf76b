@@ -1,0 +1,86 @@
+---
+title: "Color naming"
+description: "Every color in your palette gets a human-readable name from a 4,000+ entry database, looked up using perceptually uniform Oklab distance."
+---
+
+Color Palette displays a descriptive name under each palette item — not a hex code, but a real name like "dusty lavender" or "burnt sienna". Names come from a curated database and are matched using perceptual color science so that the result feels accurate to the human eye, not just close in raw RGB values.
+
+## The name database
+
+Names are sourced from the [`color-name-list/bestof`](https://github.com/meodai/color-names) package, which contains over **4,000 carefully curated entries** covering the full gamut of sRGB colors. The dataset is licensed under MIT.
+
+<Note>
+  Color Palette does not use Pantone names. Pantone color names and numbers are proprietary. All names shown in the app are from the open-source `color-name-list/bestof` dataset.
+</Note>
+
+The entire database is converted to Oklab at module load time and stored in memory (~4 ms, cached). Every lookup from that point is an in-memory nearest-neighbor search with no network requests.
+
+## How names are found
+
+When you add or edit a color, the app runs a **nearest-neighbor search** in Oklab perceptual color space:
+
+<Steps>
+  <Step title="Convert to Oklab">
+    The input hex is converted to Oklab via the pipeline: sRGB → linear RGB → LMS cone responses (using the M1 matrix) → cube root (for perceptual scaling) → Oklab (using the M2 matrix).
+  </Step>
+  <Step title="Compute distances">
+    Squared Euclidean distance is computed between the input color and every entry in the pre-computed database. The square root is skipped for performance — comparing squared distances preserves the ordering.
+  </Step>
+  <Step title="Return the closest match">
+    The entry with the smallest squared distance is returned as the color name.
+  </Step>
+</Steps>
+
+Results are cached in a Map (up to 1,000 entries) so repeated lookups for the same hex value are instant. When the cache is full, the oldest entry is evicted before adding the new one.
+
+## Why Oklab
+
+Oklab is a **perceptually uniform** color space designed so that equal numerical distances correspond to equal perceived differences. In contrast, raw RGB distance often produces mismatches — two colors can be numerically close in RGB but look very different to the human eye, or vice versa.
+
+By searching in Oklab, the nearest-neighbor result is the name that a person would most likely associate with the color, not just the closest value in screen coordinates.
+
+<AccordionGroup>
+  <Accordion title="Oklab conversion pipeline details">
+    The conversion from hex to Oklab follows the reference implementation by Björn Ottosson:
+
+    1. **sRGB linearization** — each channel (0–255) is divided by 255 and inverse-gamma-corrected. Values below 0.04045 use the linear segment `v / 12.92`; values above use `((v + 0.055) / 1.055) ^ 2.4`.
+    2. **Linear RGB → LMS** — a 3×3 matrix (M1) maps linear RGB to approximate cone response values.
+    3. **Cube root** — each LMS component is cube-rooted for the perceptual non-linearity.
+    4. **LMS → Oklab** — a second 3×3 matrix (M2) maps the cube-rooted LMS values to the final L, a, b components.
+
+    The resulting L value (0–1) represents perceptual lightness, while a and b encode the green-red and blue-yellow axes respectively.
+  </Accordion>
+</AccordionGroup>
+
+## CSS named color annotation
+
+When the nearest CSS named color is within a squared Oklab distance of **0.0004** (roughly equivalent to a linear distance of 0.02 — a very small perceptual difference), a tooltip appears on the color name showing the CSS keyword.
+
+This means that if you have a color very close to `cornflowerblue` or `rebeccapurple`, a tooltip will identify it. Colors that are perceptually distinct from all 148 CSS named colors show no tooltip.
+
+<Tip>
+  CSS named colors can be used directly in stylesheets without a hex value. If a tooltip appears, that name is valid CSS.
+</Tip>
+
+## Display behavior
+
+Color names are displayed in lowercase beneath each palette item. Long names truncate with an ellipsis — hover the name to see the full text in a tooltip.
+
+The variations panel also displays the source color's name in its header, so you always know which color you are exploring variations of.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Color editing" icon="pen" href="/guides/color-editing">
+    Edit a color's hex value directly — the name updates as soon as you confirm.
+  </Card>
+  <Card title="Color variations" icon="swatchbook" href="/guides/color-variations">
+    Explore tints, shades, and tones. The source color name appears in the variations header.
+  </Card>
+  <Card title="Color formats" icon="code" href="/reference/color-formats">
+    All color formats supported for display and export.
+  </Card>
+  <Card title="Contrast checker" icon="eye" href="/guides/contrast-checker">
+    Check WCAG contrast ratios between palette colors.
+  </Card>
+</CardGroup>

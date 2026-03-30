@@ -1,0 +1,119 @@
+---
+title: 'Generating palettes'
+description: 'Add, reroll, reorder, and manage colors in your palette — up to 10 colors with full undo/redo support.'
+---
+
+The palette view is the core of Color Palette. Each color in the row is a swatch you can add, reroll, lock, reorder, or delete. The active color relationship and any locked colors determine what gets generated each time.
+
+## Adding colors
+
+Press `A` or `Space` to append a new color to the palette. Each new color is generated based on the current relationship mode and any locked colors already in the palette.
+
+The palette holds a maximum of **10 colors** (`MAX_COLORS`). Once you reach 10, the add shortcut does nothing.
+
+<Note>
+You can also use the **+** button in the toolbar to add a color.
+</Note>
+
+## Two-row layout
+
+When a palette grows to 6 or more colors, it splits into two rows. The split is computed by `getRowSplit` and follows a fixed table:
+
+| Color count | Row 1 | Row 2 |
+|-------------|-------|-------|
+| 1–5         | all   | —     |
+| 6           | 3     | 3     |
+| 7           | 4     | 3     |
+| 8           | 4     | 4     |
+| 9           | 5     | 4     |
+| 10          | 5     | 5     |
+
+The split is purely visual. All color operations (lock, reroll, delete) still use the flat 1–10 index order: positions 1–5 fill row 1, and positions 6–10 fill row 2.
+
+## Rerolling colors
+
+<Tabs>
+  <Tab title="Reroll all">
+    Press `R` to regenerate every **unlocked** color at once. Locked colors are preserved as anchors, and the unlocked colors are regenerated to match the active relationship.
+
+    If no colors are locked and the relationship is not **random**, a random seed color is generated first and placed at the first unlocked position. All other unlocked colors are then generated relative to that seed. This ensures the palette has a coherent hue structure even when starting from scratch.
+  </Tab>
+  <Tab title="Reroll one color">
+    Press `Alt + 1-9` or `Alt + 0` to reroll a single color at a given position. The regenerated color respects the active relationship and any locked colors.
+
+    Key mapping: `1` → position 1, `2` → position 2, … `9` → position 9, `0` → position 10.
+  </Tab>
+</Tabs>
+
+## Per-color keyboard shortcuts
+
+All per-color shortcuts use the digit keys `1–9` and `0`, where `1` targets the first color and `0` targets the tenth.
+
+| Shortcut | Action |
+|----------|--------|
+| `1-9, 0` | Toggle lock on that color |
+| `Shift + 1-9, 0` | Delete that color |
+| `Alt + 1-9, 0` | Reroll that color |
+| `Shift + Alt + 1-9, 0` | Open color editor for that color |
+| `V` then `1-9, 0` | View color variations (chord within 500 ms) |
+
+<Note>
+Shortcuts are disabled while you are typing in a text input or when a dialog is open.
+</Note>
+
+## Reordering colors
+
+<Tabs>
+  <Tab title="Drag to reorder">
+    Drag any swatch left or right to move it to a new position. The lock state travels with the color — a locked swatch stays locked after being dragged.
+  </Tab>
+  <Tab title="Rearrange mode">
+    Press `M` to toggle **rearrange mode** (requires at least 2 colors). In rearrange mode, clicking one color and then another swaps their positions. Press `M` again or `Esc` to exit.
+
+    Lock states are swapped along with the colors.
+  </Tab>
+</Tabs>
+
+## Undo and redo
+
+Every palette change — add, delete, reroll, reorder — is recorded in a history stack. You can move through that history at any time.
+
+| Shortcut | Action |
+|----------|--------|
+| `Z` | Undo |
+| `Shift + Z` | Redo |
+
+History is persisted to `localStorage`, so it survives page reloads.
+
+<Info>
+You can also browse the full history timeline by pressing `H` to open the history panel.
+</Info>
+
+## How colors are generated
+
+When you add or reroll colors, `generateRelatedColor` is called with:
+
+1. **Reference colors** — the hex values of all currently locked colors. If no colors are locked and the relationship is not `random`, a random seed hex is used instead.
+2. **Relationship** — the active `ColorRelationship` (random, complementary, analogous, etc.).
+3. **Fallback** — the previous hex value at that position, used only when no locked colors and no seed are available.
+
+The result is an HSL color derived from the reference hues according to the relationship's angle rules, with small random jitter applied to saturation and lightness for natural variation.
+
+See [Color relationships](/guides/color-relationships) for the exact hue angles used by each mode.
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Color relationships" icon="circle-half-stroke" href="/guides/color-relationships">
+    How each of the 7 relationship modes determines hue angles.
+  </Card>
+  <Card title="Presets" icon="swatchbook" href="/guides/presets">
+    Apply HSL-bounded palettes like pastel, neon, or earth tones.
+  </Card>
+  <Card title="Locking colors" icon="lock" href="/guides/locking-colors">
+    Lock individual colors so they stay fixed during rerolls.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Complete list of all keyboard shortcuts.
+  </Card>
+</CardGroup>

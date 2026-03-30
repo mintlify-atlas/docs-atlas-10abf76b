@@ -1,0 +1,86 @@
+---
+title: "Color variations"
+description: "Explore 27 generated tints, shades, and tones for any color in your palette — and replace or copy them with a click."
+---
+
+The variations panel generates a full range of lighter, darker, and desaturated versions of any palette color. All 27 swatches are computed from the source color using HSL interpolation and update instantly when the source changes.
+
+## Opening variations
+
+<Tabs>
+  <Tab title="Keyboard">
+    Press `V` then a position key within 500 ms. For example, `V` then `1` opens variations for the first color, `V` then `2` for the second, and so on through `V` then `0` for the tenth.
+
+    This is a two-key chord — there is no held modifier. Press `V`, release it, then press the number.
+  </Tab>
+  <Tab title="Mouse">
+    Click the blend icon on any palette item. The palette view slides into the variations panel for that color.
+  </Tab>
+</Tabs>
+
+To return to the palette, click the **back** button or press `Escape`.
+
+## Variation types
+
+Each variation panel shows three rows of 9 swatches, starting with the source color as the anchor.
+
+### Tints
+
+Tints are lighter versions of the source color. Each step increases the HSL lightness (`L`) toward **97**, keeping hue and saturation constant. The steps are evenly distributed: step _i_ of 9 lands at `L + (97 − L) × (i / 9)`.
+
+Use tints for backgrounds, hover states, and subtle fills where the hue should remain identifiable but not compete with darker content.
+
+### Shades
+
+Shades are darker versions of the source color. Each step decreases lightness toward **3**, following the same interpolation formula in the opposite direction. At the far end of the row the color is nearly black while still preserving the original hue.
+
+Use shades for text on light backgrounds, borders, and deep shadow tones.
+
+### Tones
+
+Tones reduce the saturation of the source color while holding hue and lightness constant. Each step moves `S` toward **2**, producing a series of progressively greyed-out versions. The final swatch is nearly neutral gray at the source lightness.
+
+Use tones for muted backgrounds, disabled states, and desaturated accent colors that need to recede visually.
+
+<Info>
+  All three series share the same hue as the source color, so tints, shades, and tones derived from the same swatch always form a cohesive family.
+</Info>
+
+## Using swatches
+
+Each swatch in the panel supports two actions:
+
+| Action | Result |
+|--------|--------|
+| Click | Replace the source palette color with this variation |
+| Shift+click | Copy the variation's hex value to the clipboard |
+
+Hover over any swatch to see a tooltip with its hex value and a `click replace · shift+click copy` reminder.
+
+<Tip>
+  The source color swatch at the start of each row is also clickable — click it to replace the palette color with itself (a no-op), or Shift+click to copy the original hex value.
+</Tip>
+
+## Returning to the palette
+
+- Click the **back** arrow button in the top-left of the variations panel.
+- Press `Escape` at any time.
+
+Returning to the palette does not undo any replacements you made. Use `Z` to undo if you want to revert a color replacement.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Color editing" icon="pen" href="/guides/color-editing">
+    Edit palette colors directly by typing a hex value or dragging the HSL dot.
+  </Card>
+  <Card title="Locking colors" icon="lock" href="/guides/locking-colors">
+    Lock colors before rerolling so your chosen variations stay in place.
+  </Card>
+  <Card title="Color naming" icon="tag" href="/guides/color-naming">
+    How the variation panel labels your source color.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Full shortcut reference including the V chord.
+  </Card>
+</CardGroup>

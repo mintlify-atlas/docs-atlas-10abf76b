@@ -1,80 +1,274 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Get up and running with Color Palette in minutes. Generate your first palette, lock colors, copy values, and export."
 ---
 
-## Get started in three steps
+## Open the app
 
-Get your documentation site running locally and make your first customization.
+Color Palette runs entirely in your browser — no install, no sign-up.
 
-### Step 1: Set up your local environment
+Visit **[karan-gera.github.io/color-palette](https://karan-gera.github.io/color-palette/)** to open the live app.
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+<Tip>
+  The app works offline after the first load. All data stays in your browser's `localStorage`.
+</Tip>
 
-### Step 2: Deploy your changes
+## Run locally
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+If you want to run a local copy or contribute to the project:
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/karan-gera/color-palette.git
+    cd color-palette
+    ```
+  </Step>
+  <Step title="Install dependencies">
+    ```bash
+    npm install
+    ```
+  </Step>
+  <Step title="Start the dev server">
+    ```bash
+    npm run dev
+    ```
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+    Open `http://localhost:5173` in your browser.
+  </Step>
+</Steps>
 
-### Step 3: Go live
+---
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+## Generate your first palette
+
+<Steps>
+  <Step title="Open the app">
+    Visit the live app or your local dev server. You'll see a palette of five colors on screen.
+  </Step>
+  <Step title="Reroll the palette">
+    Press `R` to generate a new set of colors. Each press replaces all unlocked colors with new ones derived from the active color relationship.
+
+    You can also click the **Reroll** button in the toolbar.
+  </Step>
+  <Step title="Choose a color relationship">
+    Press `Q` to cycle through the seven color theory modes:
+
+    | Mode | Description |
+    |------|-------------|
+    | Random | Any random color |
+    | Complementary | Opposite on the color wheel (180°) |
+    | Analogous | Adjacent colors (±30°) |
+    | Triadic | Evenly spaced 120° apart |
+    | Tetradic | Four colors spaced 90° apart (square) |
+    | Split-complementary | The complement plus its two neighbors (±30°) |
+    | Monochromatic | Same hue, varied saturation and lightness |
+
+    The current relationship is shown in the toolbar. Switching relationships and pressing `R` gives you palettes that follow the new structure.
+  </Step>
+  <Step title="Try a preset">
+    Press `P` to cycle through palette presets. Presets constrain the HSL ranges to a specific mood:
+
+    - **Pastel** — soft, light tones (saturation 25–45%, lightness 75–88%)
+    - **Neon** — vivid, electric colors (saturation 85–100%, lightness 50–60%)
+    - **Earth Tones** — warm, natural hues (hue 15–50°, saturation 25–55%)
+    - **Jewel Tones** — rich, deeply saturated (saturation 55–80%, lightness 30–50%)
+    - **Monochrome** — grayscale spread (saturation 0–5%)
+    - **Warm** — reds, oranges, yellows (hue 330–60°)
+    - **Cool** — blues, teals, purples (hue 180–280°)
+    - **Muted** — low saturation, subtle (saturation 10–30%)
+
+    Press `Shift+P` to reroll the current preset without switching to a different one.
+  </Step>
+</Steps>
+
+---
+
+## Lock colors and reroll
+
+Locking a color keeps it in place while you reroll the rest. Locked colors also become the reference for generating new ones — so if you lock a deep teal, the relationship engine builds new colors around that anchor.
+
+<Steps>
+  <Step title="Lock a color by position">
+    Press the number key matching the color's position. `1` locks the first color, `2` locks the second, and so on. `0` locks the tenth.
+
+    A lock icon appears on the color when it's locked.
+  </Step>
+  <Step title="Reroll the unlocked colors">
+    Press `R`. Locked colors stay in place; unlocked colors are replaced with new ones derived from the locked ones.
+  </Step>
+  <Step title="Unlock a color">
+    Press the same number key again to toggle the lock off.
+  </Step>
+</Steps>
+
+<Info>
+  You can also reroll a single color without unlocking it: press `Alt+[number]` to reroll just that color. This is useful when one color in an otherwise good palette isn't working.
+</Info>
+
+---
+
+## Copy a color
+
+Click the **hex label** displayed below any color swatch. A dropdown menu appears — select the format you want and it is copied to your clipboard immediately. Six formats are supported (a seventh, CSS Name, appears only when the color closely matches a CSS named color):
+
+| Format | Example |
+|--------|---------|
+| HEX | `#3b82f6` |
+| RGB | `rgb(59, 130, 246)` |
+| HSL | `hsl(217, 91%, 60%)` |
+| CSS Variable | `--color-primary: #3b82f6;` |
+| Tailwind | `'primary': '#3b82f6'` |
+| SCSS | `$color-primary: #3b82f6;` |
+
+A confirmation indicator appears briefly after copying.
+
+---
+
+## Export your palette
+
+Press `E` to open the export dialog.
+
+<Tabs>
+  <Tab title="Code formats">
+    Code formats copy to your clipboard or download as a file:
+
+    - **CSS Variables** — generates a `:root { }` block with `--color-1` through `--color-N`
+    - **JSON** — a `{ "colors": [...] }` array of hex values
+    - **Tailwind Config** — a ready-to-paste `tailwind.config.js` `colors` block with `color-1` through `color-N` keys
+    - **SCSS Variables** — `$color-1` through `$color-N` variable declarations
+
+    **Example CSS output** for a 3-color palette:
+
+    ```css
+    :root {
+      --color-1: #3b82f6;
+      --color-2: #f59e0b;
+      --color-3: #10b981;
+    }
+    ```
+
+    **Example Tailwind output:**
+
+    ```javascript
+    // tailwind.config.js
+    module.exports = {
+      theme: {
+        extend: {
+          colors: {
+            'color-1': '#3b82f6',
+            'color-2': '#f59e0b',
+            'color-3': '#10b981',
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Art app formats">
+    Art app formats download a binary or text file you import directly into your design application:
+
+    | Format | File | Compatible apps |
+    |--------|------|-----------------|
+    | Adobe ASE | `.ase` | Photoshop, Illustrator, Clip Studio Paint |
+    | Adobe ACO | `.aco` | Photoshop |
+    | Procreate Swatches | `.swatches` | Procreate |
+    | GIMP Palette | `.gpl` | GIMP, Krita |
+    | Paint.NET Palette | `.txt` | Paint.NET |
+
+    **Photoshop / Illustrator import:**
+    1. Download the `.ase` file
+    2. Open the Swatches panel (**Window > Swatches**)
+    3. Click the menu and choose **Import Swatches** (or **Open Swatch Library > Other Library**)
+    4. Select the `.ase` file
+
+    **Procreate import:**
+    1. Save the `.swatches` file to the Files app
+    2. In Procreate, tap **Colors > Palettes > + > New from file**
+    3. Select the `.swatches` file
+
+    **GIMP / Krita import:**
+    1. Download the `.gpl` file
+    2. Place it in `~/.config/GIMP/palettes/` (Linux/macOS) or the equivalent Windows path
+    3. Restart GIMP and find the palette under **Windows > Dockable Dialogs > Palettes**
+
+    See the [export formats reference](/reference/export-formats) for complete import instructions.
+  </Tab>
+</Tabs>
+
+---
+
+## Save and share your palette
+
+<Steps>
+  <Step title="Save to your browser">
+    Press `S` to save the current palette to `localStorage`. Saved palettes are stored on your device and never leave your browser.
+  </Step>
+  <Step title="Open a saved palette">
+    Press `O` to open the saved palette browser and load a previously saved palette.
+  </Step>
+  <Step title="Copy a share link">
+    Press `C` to copy a share link. The palette data is encoded directly in the URL — no server is involved. Anyone with the link can open your exact palette.
+  </Step>
+  <Step title="Browse palette history">
+    Press `H` to open the palette history panel, which shows previously generated palettes from your session.
+  </Step>
+</Steps>
+
+---
+
+## Keyboard shortcuts overview
+
+Press `/` at any time to see all shortcuts in the app. Here are the most useful ones to know:
+
+| Key | Action |
+|-----|--------|
+| `A` / `Space` | Add a color |
+| `R` | Reroll all unlocked colors |
+| `1`–`9`, `0` | Lock / unlock color by position |
+| `Shift+[number]` | Delete color by position |
+| `Alt+[number]` | Reroll a single color |
+| `Shift+Alt+[number]` | Edit a color by position |
+| `Q` | Cycle color relationship |
+| `P` | Cycle palette preset |
+| `Shift+P` | Reroll current preset |
+| `I` | Open eyedropper / color picker |
+| `E` | Export palette |
+| `S` | Save palette |
+| `O` | Open saved palette |
+| `C` | Copy share link |
+| `Z` | Undo |
+| `Shift+Z` | Redo |
+| `F` | Toggle preview mode |
+| `G` | Cycle views (palette / gradient / extract) |
+| `K` | Toggle contrast checker |
+| `Y` | Toggle harmony score |
+| `T` | Cycle theme |
+| `Shift+T` | Cycle color blindness simulation |
+| `H` | Toggle palette history |
+| `M` | Toggle rearrange mode |
+| `/` | Show all shortcuts |
+| `Shift+/` | Open docs |
+
+<Tip>
+  The `V` key followed by a number (e.g., `V 1`) opens the color variations panel for that color, showing its tints, shades, and tones.
+</Tip>
+
+---
 
 ## Next steps
 
-Now that you have your docs running, explore these key features:
-
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Color relationships" icon="circle-nodes" href="/guides/color-relationships">
+    Learn how each color theory mode generates colors and when to use each one.
+  </Card>
+  <Card title="Presets" icon="wand-magic-sparkles" href="/guides/presets">
+    Understand the HSL constraints behind each preset and how to combine them with relationships.
+  </Card>
+  <Card title="Accessibility tools" icon="eye" href="/guides/contrast-checker">
+    Check WCAG contrast ratios and preview color blindness simulations.
+  </Card>
+  <Card title="Export formats" icon="download" href="/reference/export-formats">
+    Full reference for all 9 export formats and app import instructions.
+  </Card>
 </CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>

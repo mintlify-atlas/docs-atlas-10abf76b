@@ -1,0 +1,98 @@
+---
+title: 'Keyboard shortcuts'
+description: 'Complete reference for every keyboard shortcut in Color Palette, organized by category.'
+---
+
+Keyboard shortcuts let you control almost every part of Color Palette without touching the mouse. Press <kbd>/</kbd> at any time to open the in-app hints overlay, which shows the same shortcuts listed here.
+
+<Note>
+  Shortcuts that require a specific view (palette vs. gradient) are noted in each table. Shortcuts marked "always available" work from any view, even when an overlay is open.
+</Note>
+
+## Palette
+
+These shortcuts control the palette itself — adding colors, regenerating them, and changing how new colors relate to the locked ones.
+
+| Key | Action |
+|---|---|
+| <kbd>A</kbd> or <kbd>Space</kbd> | Add a new color to the palette |
+| <kbd>R</kbd> | Reroll all unlocked colors |
+| <kbd>Q</kbd> | Cycle color relationship (random → complementary → analogous → …) |
+| <kbd>P</kbd> | Cycle to the next color preset |
+| <kbd>Shift</kbd>+<kbd>P</kbd> | Reroll colors within the current preset |
+| <kbd>I</kbd> | Open the eyedropper / pick color from screen |
+| <kbd>M</kbd> | Toggle rearrange mode (drag colors to reorder) — requires 2+ colors |
+
+## Per-color (keys 1–9, 0)
+
+Each color in your palette is assigned a number key: **1** for the first color, **2** for the second, and so on up to **9**. The tenth color is mapped to **0**.
+
+Combine modifier keys with a number to act on that specific color. These shortcuts only work in palette view.
+
+| Keys | Action |
+|---|---|
+| <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> | Toggle lock on that color |
+| <kbd>Shift</kbd>+<kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> | Delete that color |
+| <kbd>Alt</kbd>+<kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> | Reroll that color |
+| <kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> | Open edit mode for that color |
+| <kbd>V</kbd> then <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> | View variations for that color |
+
+<Note>
+  The <kbd>V</kbd> + number chord must be pressed within 500 ms. After pressing <kbd>V</kbd>, tap the number key before the window expires.
+</Note>
+
+<Tip>
+  On macOS, modifier keys display as **⇧** (Shift) and **⌥** (Alt/Option). On Windows and Linux they display as **Shift** and **Alt**.
+</Tip>
+
+## File
+
+These shortcuts handle saving, opening, sharing, and exporting your palette. They are active in palette view when at least one color is present (save, copy link, and export require colors).
+
+| Key | Action |
+|---|---|
+| <kbd>O</kbd> | Open a saved palette |
+| <kbd>S</kbd> | Save the current palette |
+| <kbd>C</kbd> | Copy a shareable link to the clipboard |
+| <kbd>E</kbd> | Export palette (code formats: CSS, JSON, Tailwind, SCSS) or gradient export in gradient view |
+| <kbd>Shift</kbd>+<kbd>⌘E</kbd> | Export palette as an image (PNG or SVG) |
+
+## View
+
+View shortcuts switch between sections of the app and toggle panels. Most are always available — you can open the contrast checker or preview mode from any context.
+
+| Key | Action |
+|---|---|
+| <kbd>G</kbd> | Cycle views: palette → gradient → extract |
+| <kbd>X</kbd> | Toggle extract-from-image view |
+| <kbd>F</kbd> | Toggle preview mode overlay — always available |
+| <kbd>T</kbd> | Cycle UI theme (light → gray → dark) |
+| <kbd>Shift</kbd>+<kbd>T</kbd> | Cycle color vision deficiency (CVD) simulation mode |
+| <kbd>K</kbd> | Toggle contrast checker panel |
+| <kbd>Shift</kbd>+<kbd>K</kbd> | Cycle contrast tab (vs backgrounds ↔ vs each other) — requires 2+ colors |
+| <kbd>H</kbd> | Toggle palette history |
+| <kbd>Y</kbd> | Toggle harmony score panel |
+
+## General
+
+| Key | Action |
+|---|---|
+| <kbd>Z</kbd> | Undo — palette view only |
+| <kbd>Shift</kbd>+<kbd>Z</kbd> | Redo — palette view only |
+| <kbd>Esc</kbd> | Close any open dialog or overlay |
+| <kbd>/</kbd> | Open the in-app shortcuts hints overlay |
+| <kbd>Shift</kbd>+<kbd>/</kbd> | Open the docs and about panel |
+
+## Related
+
+<CardGroup cols={3}>
+  <Card title="Generating palettes" icon="wand-magic-sparkles" href="/guides/generating-palettes">
+    How to build and reroll palettes.
+  </Card>
+  <Card title="Color editing" icon="sliders" href="/guides/color-editing">
+    Edit individual colors by keyboard or mouse.
+  </Card>
+  <Card title="Export formats" icon="file-export" href="/reference/export-formats">
+    All file formats available when exporting.
+  </Card>
+</CardGroup>

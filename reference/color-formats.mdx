@@ -1,0 +1,128 @@
+---
+title: 'Color formats'
+description: 'The six formats available when copying an individual color from your palette: hex, RGB, HSL, CSS variable, Tailwind, and SCSS.'
+---
+
+Every color in your palette can be copied in six different formats. The format you choose determines what gets placed on your clipboard, so you can paste it directly into your codebase without any manual conversion.
+
+## How to copy a color
+
+Click the **hex label** displayed below any palette color swatch. A small format menu appears. Select the format you want — the value is copied to your clipboard immediately and the menu closes.
+
+<Tip>
+  The format menu remembers the last format you selected. The next time you click a hex label, it defaults to the same format.
+</Tip>
+
+## Available formats
+
+All examples below use the color `#ff5733` (a vivid red-orange).
+
+### HEX
+
+A lowercase 6-character hexadecimal color code, prefixed with `#`.
+
+```text
+#ff5733
+```
+
+**When to use:** This is the most universal format. Use it anywhere that accepts a CSS color value — HTML attributes, CSS properties, design tools, and most code editors with color pickers.
+
+---
+
+### RGB
+
+A CSS `rgb()` function with decimal values in the 0–255 range.
+
+```text
+rgb(255, 87, 51)
+```
+
+**When to use:** Use RGB when you need to pass color channels separately (for example, into a CSS custom property for dynamic opacity: `rgba(var(--color-rgb), 0.5)`) or when working in a context that expects RGB triplets instead of hex strings.
+
+---
+
+### HSL
+
+A CSS `hsl()` function with hue in degrees (0–360), saturation as a percentage, and lightness as a percentage.
+
+```text
+hsl(14, 100%, 60%)
+```
+
+**When to use:** HSL is easier to reason about when you need to programmatically adjust a color — lightening, darkening, or shifting the hue by a fixed amount. It maps directly to sliders in most design tools.
+
+---
+
+### CSS Variable
+
+A CSS custom property declaration using the variable name `--color-primary` by default.
+
+```css
+--color-primary: #ff5733;
+```
+
+**When to use:** Use this format when building a design token system. Paste the declaration into your `:root` block, then reference it throughout your stylesheet as `var(--color-primary)`.
+
+---
+
+### Tailwind
+
+A key-value pair in the format Tailwind's `theme.extend.colors` expects.
+
+```js
+'primary': '#ff5733'
+```
+
+**When to use:** Drop this directly into your `tailwind.config.js` colors object. The name `primary` can be changed once pasted. Tailwind will expose utility classes like `bg-primary`, `text-primary`, and `border-primary`.
+
+---
+
+### SCSS
+
+A Sass variable declaration using the `$color-` prefix.
+
+```scss
+$color-primary: #ff5733;
+```
+
+**When to use:** Use this in `.scss` or `.sass` files. You can then reference the variable throughout your stylesheets as `$color-primary`, or pass it to Sass functions like `darken()` or `mix()`.
+
+---
+
+## Format reference table
+
+| Format | Output for `#ff5733` | File types |
+|---|---|---|
+| HEX | `#ff5733` | Any CSS, HTML, design tool |
+| RGB | `rgb(255, 87, 51)` | CSS, JavaScript |
+| HSL | `hsl(14, 100%, 60%)` | CSS, JavaScript |
+| CSS Variable | `--color-primary: #ff5733;` | CSS (`:root` block, design tokens) |
+| Tailwind | `'primary': '#ff5733'` | `tailwind.config.js` |
+| SCSS | `$color-primary: #ff5733;` | `.scss`, `.sass` |
+| CSS Name | e.g. `tomato` (only when a match exists) | CSS, HTML |
+
+## CSS named color
+
+When the color is very close to one of the 148 CSS named colors (within a tiny perceptual threshold in Oklab space), a seventh option — **CSS Name** — appears at the bottom of the format menu. Selecting it copies the CSS keyword directly (e.g. `cornflowerblue`, `rebeccapurple`).
+
+<Note>
+  The CSS Name option only appears when the color is perceptually close to a named CSS color. It is not available for every color.
+</Note>
+
+## Exporting all colors at once
+
+The single-color copy formats above are useful for one-off references. If you need all palette colors in a single file, use the **Export** dialog (<kbd>E</kbd>) to download the full palette as CSS variables, JSON, Tailwind config, or SCSS variables. See [export formats](/reference/export-formats) for details.
+
+## Related
+
+<CardGroup cols={3}>
+  <Card title="Export formats" icon="file-export" href="/reference/export-formats">
+    Export all colors at once to code or art app formats.
+  </Card>
+  <Card title="Color editing" icon="sliders" href="/guides/color-editing">
+    Edit any color in the palette directly.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Full shortcut reference for the whole app.
+  </Card>
+</CardGroup>

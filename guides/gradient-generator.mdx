@@ -1,0 +1,189 @@
+---
+title: "Gradient Generator"
+description: "Build, edit, and export linear gradients seeded directly from your palette colors."
+---
+
+The gradient generator is a dedicated workspace view where your palette colors become the starting points for a fully editable linear gradient. Stops stay linked to their source colors and update automatically when you reroll the palette.
+
+## Switching to Gradient View
+
+Press `G` to cycle through the three views: **palette → gradient → extract**. You can also click the compact tab strip on the right edge of the content area.
+
+<Tip>
+  `X` jumps directly to the extract view. `G` always cycles in order: palette → gradient → extract → palette.
+</Tip>
+
+### The view tab strip
+
+A vertical strip of dots sits fixed on the right edge of the main content area. At rest it shows three small circles — one per view, filled for the active view, outlined for the others. Hovering the strip expands it leftward to reveal the view labels: **palette**, **gradient**, **extract**. Click any dot or label to switch views immediately.
+
+The active view transitions with a 150ms opacity crossfade so the switch feels instant without a harsh cut.
+
+---
+
+## How Stops Are Seeded
+
+When you first open the gradient view, all palette colors are placed as stops, evenly distributed across the 0–100% range:
+
+- With two palette colors: one stop at 0%, one at 100%.
+- With more colors: stops are spaced proportionally — e.g. five colors land at 0%, 25%, 50%, 75%, 100%.
+- Each stop is **palette-linked** by default, meaning its color tracks the palette color it came from. When you reroll, edit, or replace a palette color, every linked stop updates automatically.
+
+If you remove a palette color entirely, any stops that were linked to it are converted to **custom stops** — their hex value is frozen at whatever it was at the moment of deletion.
+
+Use the **rebuild from palette** button (bottom-left of the gradient view) to re-seed all stops from the current palette at any time, discarding any custom stops or manual edits.
+
+---
+
+## The Gradient Preview
+
+Above the stop bar is a live preview panel. Five aspect ratio options appear in the top-right corner — **16:9**, **4:3**, **1:1**, **4:5**, **9:16** — and switching between them animates the preview box with a spring transition. The gradient respects the current angle and stop positions at all times.
+
+---
+
+## The Stop Bar
+
+Below the preview, a horizontal gradient bar shows the current gradient rendered left-to-right (always horizontal, independent of the angle setting — this bar is a position editor, not an angle preview).
+
+### Adding stops
+
+Click any empty area of the bar to place a new stop at that position. The new stop inherits the first palette color by default. You can reassign its color immediately from the color picker that opens.
+
+A **collision guard** prevents stops from being placed within 2% of an existing stop. Clicking too close to another stop does nothing.
+
+### Moving stops
+
+Each stop has a small colored handle below the bar. Drag a handle left or right to reposition it. The collision guard also applies during drag — a stop won't move into a position within 2% of another stop.
+
+The selected stop displays its current position as a percentage label below its handle.
+
+### Deleting stops
+
+Hover over any stop handle to reveal a small **×** button beneath it. Click it to delete the stop. Deletion is blocked when only 2 stops remain — the minimum for a valid gradient. The × button appears visually disabled (dimmed, not clickable) at that point.
+
+### Selecting stops
+
+Click a stop handle (without dragging) to select it and open its color picker. Dragging a stop deselects any open picker.
+
+---
+
+## The Color Picker
+
+Clicking a stop handle opens a **StopColorPicker** popover anchored to that stop's position. The picker offers two ways to assign a color:
+
+**Palette swatches** — all current palette colors are shown as clickable swatches. Picking one links the stop to that palette color; the stop will track it on future palette changes.
+
+**Custom hex input** — type any hex value directly to assign a fixed color. Once a custom hex is entered, the stop is no longer linked to the palette and will not update on reroll.
+
+The picker flips its alignment automatically when a stop is past 70% to avoid overflowing the right edge.
+
+---
+
+## Angle Control
+
+Below the stop bar, an **angle** row lets you set the gradient direction:
+
+- **Slider** — drag from 0° to 360°.
+- **Numeric input** — type an exact value. The input normalizes out-of-range values on blur (e.g. negative angles wrap around: −45° becomes 315°). Leaving the field empty resets to 90°.
+- **− / + buttons** — nudge the angle by one degree at a time.
+
+The default angle is **90°** (left to right). The angle maps directly to the CSS `linear-gradient()` angle convention.
+
+---
+
+## Exporting Gradients
+
+Press `E` while in the gradient view to open the **gradient export dialog** — the same key that opens the palette export dialog when you're in the palette view. The `E` key is context-aware.
+
+You can also click the **export** button in the bottom-right of the gradient view.
+
+<Note>
+  In the palette view, `E` opens the palette export dialog. In the gradient view, `E` opens the gradient export dialog. Switching views changes what `E` does.
+</Note>
+
+### Available export formats
+
+<Tabs>
+  <Tab title="CSS">
+    Copies a `linear-gradient(...)` declaration to your clipboard, ready to paste into any stylesheet or inline style attribute.
+
+    ```css
+    linear-gradient(90deg, #e63946 0%, #457b9d 50%, #1d3557 100%)
+    ```
+
+    Use keyboard navigation (↑↓) in the dialog and press Enter to export, or click the format row directly.
+  </Tab>
+  <Tab title="Tailwind">
+    Copies a Tailwind utility class string using the `bg-gradient-{direction}` pattern with arbitrary color values.
+
+    ```
+    bg-gradient-to-r from-[#e63946] via-[#457b9d] to-[#1d3557]
+    ```
+
+    The direction class is determined by the current angle:
+
+    | Angle range | Class |
+    |---|---|
+    | 0–22° and 338–360° | `to-t` |
+    | 23–67° | `to-tr` |
+    | 68–112° | `to-r` |
+    | 113–157° | `to-br` |
+    | 158–202° | `to-b` |
+    | 203–247° | `to-bl` |
+    | 248–292° | `to-l` |
+    | 293–337° | `to-tl` |
+
+    <Warning>
+      Tailwind only supports three color stop positions — `from`, `via`, and `to`. If your gradient has more than 3 stops, the export uses the first stop, the middle stop, and the last stop. A warning message appears in the confirmation screen listing which stops were used.
+    </Warning>
+  </Tab>
+  <Tab title="SVG file">
+    Downloads a `.svg` file containing a `<linearGradient>` definition inside a `<defs>` block, applied to a `<rect>` that fills the full canvas.
+
+    The output dimensions match the currently selected aspect ratio, scaled so the longer dimension is 1920px. For example, 16:9 exports at 1920×1080px.
+
+    SVG coordinates for the gradient direction are computed from the angle using the CSS-to-SVG conversion formula (`x1/y1/x2/y2` as percentages).
+
+    Compatible with Illustrator, Affinity Designer, Inkscape, and any SVG-aware tool.
+  </Tab>
+  <Tab title="PNG">
+    Downloads a `.png` raster file rendered via the Canvas API. Dimensions follow the same aspect-ratio scaling as the SVG export (longer side = 1920px).
+
+    The gradient is rendered using `CanvasRenderingContext2D.createLinearGradient`, which correctly handles the angle and all stop positions.
+
+    Use this for Photoshop reference layers, mood boards, or anywhere you need a universal raster image.
+  </Tab>
+</Tabs>
+
+After exporting, the dialog shows a confirmation screen with the format name and a note about any warnings. From there you can **export another** format or **close** the dialog.
+
+---
+
+## Keyboard Reference
+
+| Key | Action |
+|---|---|
+| `G` | Cycle views (palette → gradient → extract) |
+| `E` | Open gradient export dialog (when in gradient view) |
+| `Esc` | Close the export dialog |
+| ↑ / ↓ | Navigate export format list |
+| Enter | Confirm selected export format |
+
+---
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Exporting Palettes" icon="download" href="/guides/exporting-palettes">
+    Export the full palette as CSS, JSON, Tailwind, SCSS, or art app formats.
+  </Card>
+  <Card title="Extract from Image" icon="image" href="/guides/extract-from-image">
+    Pull dominant colors from an image to seed your palette — and your gradient stops.
+  </Card>
+  <Card title="Keyboard Shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Full reference for every shortcut, including context-aware keys like E and G.
+  </Card>
+  <Card title="Export Formats" icon="file-export" href="/reference/export-formats">
+    Technical details for every supported export format.
+  </Card>
+</CardGroup>

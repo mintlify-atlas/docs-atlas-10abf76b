@@ -1,0 +1,96 @@
+---
+title: "Extract from image"
+description: "Drag any image into Color Palette to automatically extract its 10 dominant colors using k-means clustering — then add them to your palette."
+---
+
+The Extract view analyzes an image and pulls out its most representative colors using a k-means clustering algorithm. Everything runs in your browser — no image is uploaded to a server.
+
+## Opening the Extract view
+
+<Tabs>
+  <Tab title="Keyboard">
+    Press `X` to jump directly to the Extract view from anywhere in the app.
+
+    Alternatively, press `G` to cycle through the available views (palette → gradient → extract) in order.
+  </Tab>
+  <Tab title="Mouse">
+    Click the **Extract** tab in the view tab strip at the top of the app.
+  </Tab>
+</Tabs>
+
+## Loading an image
+
+The Extract view shows a 16:9 drop zone.
+
+<Steps>
+  <Step title="Drop or pick an image">
+    Drag an image file directly onto the drop zone, or click the drop zone to open the file picker. Supported formats: PNG, JPG, GIF, WEBP — any format the browser's `<img>` element can decode.
+  </Step>
+  <Step title="Wait for extraction">
+    A brief "extracting colors…" message appears while the algorithm runs. On most images this completes in under a second.
+  </Step>
+  <Step title="Review the extracted swatches">
+    Up to 10 color swatches appear below the image preview. All swatches start selected (highlighted with a ring).
+  </Step>
+</Steps>
+
+## How extraction works
+
+The algorithm uses the browser's **Canvas API** and **k-means clustering** entirely client-side:
+
+1. **Scale** — the image is drawn onto a `<canvas>` scaled to a maximum of 150 px on its longest side. This limits the number of pixels processed and keeps the algorithm fast regardless of the original image resolution.
+2. **Sample pixels** — every third pixel is sampled (step of 4 × 3 bytes in the raw RGBA buffer), and only pixels with an alpha value above 128 are included. Transparent areas are ignored.
+3. **Cluster** — the sampled pixels are clustered into **k = 10** groups using k-means in RGB space. The algorithm initializes centroids by evenly spacing them through the pixel array, then runs up to **20 iterations** or until no centroid moves.
+4. **Return centroids** — the final centroid of each cluster is converted to a hex value and displayed as a swatch.
+
+<Info>
+  Because k-means uses a deterministic initialization (evenly spaced pixels, not random), the same image always produces the same 10 colors.
+</Info>
+
+## Selecting swatches
+
+After extraction, you choose which colors to add:
+
+| Interaction | Result |
+|-------------|--------|
+| Click a swatch | Toggle its selection on or off |
+| Click and drag across swatches | Toggle a range in one gesture — the first swatch you click sets the direction (select or deselect), and dragging applies that same operation to every swatch you cross |
+
+Deselected swatches appear at reduced opacity. The **Add N colors** button reflects the current selection count.
+
+## Adding colors to the palette
+
+Click **Add N colors to palette** to move the selected colors into your palette.
+
+<Warning>
+  If your palette already contains 10 colors (the maximum), adding extracted colors **replaces the entire palette** with the selected swatches. No merge takes place — the existing palette is cleared first.
+
+  If you want to keep some existing colors, lock them before switching to the Extract view, or add the extracted colors when the palette has room.
+</Warning>
+
+When the palette has fewer than 10 colors, the extracted colors are appended up to the 10-color limit. If you select more colors than there is room for, the extras are silently dropped.
+
+## Supported image types
+
+Any image format supported by your browser works: PNG, JPG/JPEG, GIF, WEBP, AVIF, BMP, SVG. Animated GIFs use the first frame.
+
+<Note>
+  Color extraction reads pixel data using `canvas.getContext('2d').getImageData()`. Browsers block this for cross-origin images due to the canvas taint policy. Use locally loaded files (drag-and-drop or file picker) to avoid this restriction.
+</Note>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Eyedropper" icon="eye-dropper" href="/guides/eyedropper">
+    Pick a single color from anywhere on screen and add it to your palette.
+  </Card>
+  <Card title="Generating palettes" icon="palette" href="/guides/generating-palettes">
+    Generate palettes from scratch using color theory relationships.
+  </Card>
+  <Card title="Locking colors" icon="lock" href="/guides/locking-colors">
+    Lock colors before extracting to preserve your existing choices.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    X and G shortcuts for navigating to Extract view.
+  </Card>
+</CardGroup>

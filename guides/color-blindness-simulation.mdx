@@ -1,0 +1,98 @@
+---
+title: 'Color blindness simulation'
+description: 'Preview your palette through four color vision deficiency simulations to ensure it works for all users.'
+---
+
+The color blindness simulation applies scientifically-derived SVG color matrix filters to the entire interface — not just the palette swatches — so you can see exactly how your palette would appear to users with different types of color vision deficiency (CVD).
+
+Press <kbd>Shift</kbd>+<kbd>T</kbd> to cycle through CVD modes. Press again to advance to the next mode. After the last mode, it wraps back to normal vision.
+
+<Note>
+  Your CVD preference is saved in `localStorage` and restored the next time you visit. The simulation persists across page reloads.
+</Note>
+
+## Simulation types
+
+The four simulation modes cycle in this order:
+
+<AccordionGroup>
+  <Accordion title="Deuteranopia — red-green (most common)">
+    Affects approximately 5–6% of males. Deuteranopia is caused by the absence of M-cone (medium-wavelength, green-sensitive) photoreceptors. Reds and greens appear similar — both shift toward a yellow-brown range. This is the most common form of color blindness.
+
+    Filter algorithm: Viénot 1999 linear RGB matrix.
+  </Accordion>
+  <Accordion title="Protanopia — red-green (red-weak)">
+    Affects approximately 1% of males. Protanopia is caused by the absence of L-cone (long-wavelength, red-sensitive) photoreceptors. Reds appear darker and shift toward green-brown. It differs from deuteranopia primarily in how red luminance is affected — reds look nearly black in severe cases.
+
+    Filter algorithm: Viénot 1999 linear RGB matrix.
+  </Accordion>
+  <Accordion title="Tritanopia — blue-yellow">
+    Affects approximately 0.003% of the population, making it rare. Tritanopia is caused by the absence of S-cone (short-wavelength, blue-sensitive) photoreceptors. Blues and greens appear similar; yellows and reds appear similar. Blue hues become almost indistinguishable from green.
+
+    Filter algorithm: Brettel 1997 linear RGB matrix.
+  </Accordion>
+  <Accordion title="Achromatopsia — full monochromacy">
+    Affects approximately 0.003% of the population. Achromatopsia is the complete absence of color vision — the world appears entirely in grayscale. All hue information is lost; only luminance differences remain.
+
+    Filter algorithm: ITU-R BT.709 grayscale luminance coefficients (the same weighting used in WCAG relative luminance).
+  </Accordion>
+</AccordionGroup>
+
+## How the simulation works
+
+Each filter is an SVG `<feColorMatrix>` element operating in `linearRGB` color space. The filter definitions are embedded directly in the React DOM (in `CVDFilters.tsx`) for cross-browser compatibility, including Firefox and Waterfox, where CSS `filter` references to external SVG files can fail.
+
+When a CVD mode is active, a CSS `filter: url(#cvd-<mode>)` rule is applied to the root of the application. This means the entire UI — toolbar, panels, contrast checker, color cards, and all other chrome — is rendered through the filter. This is intentional: it lets you evaluate not just the palette colors but how the whole interface reads under that vision type.
+
+When you return to normal vision (cycling past the last mode), the filter is removed and the interface reverts to its unfiltered appearance.
+
+### Transition effect
+
+Switching CVD modes triggers a circle wipe animation that expands from the center of the screen. This provides a visual cue that the filter has changed, which is especially helpful when the difference between modes is subtle.
+
+## Practical guidelines
+
+A palette that works under all four CVD modes is significantly more robust than one designed only for standard trichromatic vision.
+
+<Steps>
+  <Step title="Test deuteranopia first">
+    Since deuteranopia is the most common form, start here. Check whether your palette's red and green colors remain distinguishable. If two colors look identical in this mode, they are not usable together without an additional visual cue (shape, pattern, label).
+  </Step>
+  <Step title="Check protanopia for reds">
+    Cycle to protanopia and look at any red colors in your palette. Deep reds can appear nearly black, which may affect perceived contrast significantly. Use the [contrast checker](/guides/contrast-checker) alongside this simulation.
+  </Step>
+  <Step title="Test tritanopia for blues">
+    In tritanopia mode, blue and green become hard to distinguish. If your palette pairs blue and green as semantic signals (e.g., info vs. success), they may need to differ in lightness or saturation, not just hue.
+  </Step>
+  <Step title="Check achromatopsia for luminance">
+    Achromatopsia strips all hue information. This is the most demanding test: if your palette colors still look distinguishable in grayscale, they will work for virtually all users. Colors that collapse to similar grays are not distinguishable by luminance alone.
+  </Step>
+</Steps>
+
+<Tip>
+  Colors that differ primarily in hue (same saturation and lightness) will look identical in achromatopsia mode. Aim for at least a 20–30 point lightness difference between any two colors you intend to use as a pair.
+</Tip>
+
+<Warning>
+  The simulations are approximations based on well-established mathematical models (Viénot 1999, Brettel 1997). They model dichromacy — the complete absence of one cone type — which is the most severe form of each condition. Mild anomalous trichromacy (partial cone deficiency) varies widely between individuals and cannot be fully simulated.
+</Warning>
+
+## Keyboard shortcut
+
+| Shortcut | Action |
+|---|---|
+| <kbd>Shift</kbd>+<kbd>T</kbd> | Cycle through CVD modes (normal → deuteranopia → protanopia → tritanopia → achromatopsia → normal) |
+
+## Related
+
+<CardGroup cols={3}>
+  <Card title="Contrast checker" icon="circle-half-stroke" href="/guides/contrast-checker">
+    Check WCAG contrast ratios for text readability.
+  </Card>
+  <Card title="Harmony score" icon="star" href="/guides/harmony-score">
+    Score how well your palette's hues, saturation, and lightness work together.
+  </Card>
+  <Card title="Color relationships" icon="shuffle" href="/guides/color-relationships">
+    Generate palettes from proven color theory relationships.
+  </Card>
+</CardGroup>

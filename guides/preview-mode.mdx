@@ -1,0 +1,200 @@
+---
+title: "Preview Mode"
+description: "See your palette applied to real UI components and typographic layouts in a full-screen overlay."
+---
+
+Preview mode is a full-screen overlay that renders your palette colors on realistic mock content — a dashboard UI or a typographic composition — so you can judge how the colors work together before exporting or sharing.
+
+## Opening Preview Mode
+
+Press `F` from any view to toggle the overlay open or closed. You can also click the **preview** button in the controls toolbar if you prefer the mouse.
+
+To dismiss the overlay, press `F` again, press `Escape`, or click anywhere outside the preview content area.
+
+<Note>
+  `F` is always available regardless of which view is active (palette, gradient, or extract). It does not require a dialog to be closed first.
+</Note>
+
+The overlay fades in and out with a smooth 180ms opacity transition.
+
+---
+
+## Switching Modes
+
+The top bar of the overlay contains a mode switcher with two options:
+
+- **ui elements** — a shadcn-flavored dashboard mockup
+- **title design** — large display typography with layout presets
+
+Click either button to switch modes instantly. Your last-used mode is remembered in `localStorage` and restored the next time you open the overlay.
+
+A **mosaic** view (solid color bars spanning the full screen, one per palette color) is also present as the initial default until another mode is selected.
+
+---
+
+## Mode 1: UI Elements (shadcn Dashboard)
+
+The UI Elements mode renders a complete dashboard mockup built with shadcn/ui components. Every surface — background, cards, sidebar, buttons, badges, chart, form inputs — is driven live by color role assignments.
+
+### What's in the mockup
+
+The mock dashboard includes:
+
+- **Sidebar** with nav links (Dashboard, Users, Analytics, Settings) and a company name header. The active item uses the primary color.
+- **Page header** with a title and a primary-color action button.
+- **Stat cards** showing revenue, active users, and conversion metrics with trend badges.
+- **Revenue trend chart** — a Recharts area chart using the primary color for the fill and stroke.
+- **Goals panel** with progress bars for monthly target, user retention, and support resolution.
+- **New entry form** with name and email inputs plus a submit button.
+- **Recent transactions table** with user avatars, status badges (success / pending / failed), and amounts.
+
+None of this data is real. It is all static placeholder content designed to show how the colors read on a credible layout.
+
+### Color roles
+
+Eight color roles control the entire mockup. They are listed on the left sidebar of the UI Elements mode:
+
+| Role | Drives |
+|---|---|
+| `background` | Main page background |
+| `foreground` | Body text, headings, icon strokes |
+| `card` | Card and sidebar surfaces |
+| `primary` | Primary buttons, active nav item, chart fill |
+| `accent` | Secondary accent surfaces |
+| `border` | Card borders, input borders, dividers |
+| `muted` | Secondary/muted text, axis labels |
+| `destructive` | "Failed" status badges |
+
+Click any role label in the sidebar to open a swatch popover and reassign it to a different palette color. The mockup updates immediately.
+
+### Auto-assignment on open
+
+When the overlay opens, roles are assigned automatically using luminance and saturation heuristics:
+
+- **background** → lightest color (highest relative luminance)
+- **foreground** → darkest color (lowest relative luminance)
+- **card** → second-lightest color
+- **primary** → most saturated color
+- **accent** → second-most saturated color
+- **border** → median-luminance color
+- **muted** → second-darkest color
+- **destructive** → third-most saturated color
+
+If you change the palette significantly, roles are re-assigned automatically to stay coherent.
+
+### Font selector
+
+Choose a typeface for the entire mockup from six options, loaded lazily from Google Fonts:
+
+| Font | Character |
+|---|---|
+| **system** | System monospace (`ui-monospace, monospace`) — the app's default, no network load |
+| **inter** | Neutral, modern — general-purpose sans-serif |
+| **playfair** | Editorial, luxury — serif for magazine or brand work |
+| **space grotesk** | Tech, geometric — startup and SaaS aesthetic |
+| **nunito** | Friendly, rounded — consumer apps |
+| **jetbrains mono** | Dev, technical — terminal and developer tools |
+
+The mockup fades out while the font loads (Google Fonts API injection) and fades back in once the font is ready — preventing a flash of unstyled text. Your font choice persists in `localStorage`.
+
+### Corner radius
+
+A slider labeled **corner radius** controls the `--radius` CSS custom property used by all shadcn components in the mockup, from `0rem` (sharp corners) to `1.5rem` (very rounded). This lets you preview the same palette across different component rounding styles. The value persists in `localStorage`.
+
+### Copy CSS variables
+
+A **copy css vars** button at the bottom of the left sidebar copies all eight role assignments as a `:root {}` block:
+
+```css
+:root {
+  --background: #f8f4f0;
+  --foreground: #1a1a2e;
+  --card: #eee8e0;
+  --primary: #e63946;
+  --accent: #457b9d;
+  --border: #c9b99a;
+  --muted: #8a7a6e;
+  --destructive: #d62828;
+}
+```
+
+---
+
+## Mode 2: Title Design
+
+Title Design mode shows your palette colors applied to large display typography in a full-screen composition. It is useful for evaluating a palette's impact at headline scale — print, poster, editorial, or hero sections.
+
+### Layout presets
+
+Three layouts are available. Switch between them using the buttons in the top bar:
+
+<Tabs>
+  <Tab title="Hero">
+    Left-aligned composition with an oversized headline, a spaced uppercase subheading, a short body paragraph, and a ruled footer line with small-caps label text.
+
+    The heading fills the left third of the screen at display size. The subheading sits below in uppercase tracking. Good for evaluating how a palette reads on a landing page hero section.
+  </Tab>
+  <Tab title="Editorial">
+    A full article layout: top navigation bar with category links, a large headline, a deck (subtitle) below it, a byline with date and reading time, a horizontal rule, and two paragraphs of body copy.
+
+    Models a long-form article or blog post. Useful for seeing how the palette handles hierarchy across many text levels simultaneously.
+  </Tab>
+  <Tab title="Poster">
+    A single massive display headline that fills the viewport horizontally at up to 16rem, with the subheading placed in an accent-colored bar strip at the bottom of the screen.
+
+    The font size uses `clamp(5rem, 18vw, 16rem)` — it scales with the window width. Best for evaluating bold, high-contrast palettes intended for print or outdoor use.
+  </Tab>
+</Tabs>
+
+Your layout choice persists in `localStorage` and is restored the next time the overlay opens.
+
+### Editable text
+
+Both the heading and the subheading are editable inline. Click either text element to turn it into a text input. The current text is selected automatically so you can start typing immediately.
+
+Press **Enter** or **Escape** (or click anywhere outside) to commit the edit and return to display mode. The text values persist in `localStorage`.
+
+### Color role pickers
+
+Three color roles appear in the top bar when Title Design mode is active:
+
+| Role label | Drives |
+|---|---|
+| **bg** | Background surface of the entire composition |
+| **text** | Heading and body text |
+| **accent** | Subheading, category tags, ruled lines, accent elements |
+
+Click any role swatch to open a popover showing the current palette colors. Click a swatch to reassign that role. All surfaces update live.
+
+Roles are auto-assigned on open using the same luminance/saturation logic as UI Elements mode:
+- **bg** — lightest or darkest depending on palette average luminance
+- **text** — highest-contrast color against the background
+- **accent** — most saturated remaining color
+
+---
+
+## Keyboard Reference
+
+| Key | Action |
+|---|---|
+| `F` | Toggle preview overlay open / closed |
+| `Esc` | Close the overlay |
+
+---
+
+## Related Pages
+
+<CardGroup cols={2}>
+  <Card title="Generating Palettes" icon="shuffle" href="/guides/generating-palettes">
+    Generate new palettes to preview in different color scenarios.
+  </Card>
+  <Card title="Color Relationships" icon="circle-nodes" href="/guides/color-relationships">
+    Apply harmony rules to build palettes that preview well across all modes.
+  </Card>
+  <Card title="Exporting Palettes" icon="download" href="/guides/exporting-palettes">
+    Export the palette as CSS variables, Tailwind config, or art app swatches.
+  </Card>
+  <Card title="Contrast Checker" icon="eye" href="/guides/contrast-checker">
+    Verify WCAG contrast ratios before using colors for text and interactive elements.
+  </Card>
+</CardGroup>

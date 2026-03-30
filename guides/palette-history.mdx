@@ -1,0 +1,97 @@
+---
+title: "Palette history"
+description: "Browse every palette state from the current session as a scrollable thumbnail strip and click any snapshot to restore it non-destructively."
+---
+
+The history strip keeps a visual record of every palette state generated during your session. You can jump to any snapshot at any point and continue from there — restoring a snapshot pushes onto the undo stack, so you never lose work.
+
+## Toggling the history strip
+
+Press `H` to show or hide the history strip. It appears below the palette as a scrollable row of color bar thumbnails. Press `H` again to collapse it.
+
+The strip also has a clickable **history** label with a chevron indicator. Click it to toggle the same way.
+
+## Reading the thumbnail strip
+
+Each thumbnail represents one palette state. Thumbnails are ordered chronologically left to right, with the most recent state on the right end.
+
+- The **current state** is highlighted with a ring outline and rendered at full opacity.
+- **Past states** (to the left of current) are shown at 60% opacity.
+- **Future states** (to the right of current, present when you have undone) are shown at 30% opacity.
+- Each thumbnail is approximately **56 × 32 px** and shows the palette as proportional color bars.
+
+A counter in the format `current/total` (e.g., `3/12`) appears to the left of the strip so you know where you are in the history.
+
+## Scrolling
+
+When the history strip is longer than the visible area, left and right scroll buttons appear at the edges with a fade gradient overlay. Clicking them scrolls by approximately 4 thumbnails at a time.
+
+The strip automatically scrolls to the rightmost thumbnail when a new state is pushed, and smoothly scrolls to keep the current thumbnail visible when you jump or undo/redo.
+
+## Restoring a snapshot
+
+Click any thumbnail to restore that palette state. Restoring pushes the selected state onto the undo stack — it does not discard your current state. You can undo back to where you were before clicking the thumbnail.
+
+<Note>
+  Restoring a past snapshot does not delete the future states shown to its right. Those states remain available via redo (`Shift`+`Z`) until you make a new change that branches the history.
+</Note>
+
+## What triggers a history entry
+
+A new snapshot is captured automatically whenever you:
+
+- Press `R` to reroll all unlocked colors
+- Apply a preset with `P`
+- Add a color (`A` or `Space`)
+- Delete a color (`Shift`+`1`–`9`,`0`)
+- Edit a color (confirm from edit mode)
+- Reorder colors in rearrange mode
+- Reroll a single color (`Alt`+`1`–`9`,`0`)
+
+### Deduplication
+
+If an action produces a palette that is identical to the current state, no new entry is added. Consecutive duplicate states are never stored.
+
+## Capacity
+
+The history strip holds the states managed by the undo/redo system — there is no separate cap for the visual strip itself. The underlying history uses up to **2,048 entries** when persisted across page loads (see below).
+
+## Session persistence
+
+Unlike saved palettes (which live in `localStorage` under `color-palette:saved`), the undo/redo history **is** persisted to `localStorage` under `color-palette:history`. It reloads automatically when you return to the page within the same session window (up to 8 hours). After 8 hours the index is reset to the latest state, but the history entries themselves are still available.
+
+<Info>
+  If the stored history exceeds 2,048 entries, the oldest entries are trimmed when writing. The current index is adjusted accordingly so your position in the timeline is preserved.
+</Info>
+
+## Undo and redo
+
+The history strip is a visual companion to the undo/redo system. Both operate on the same state:
+
+| Shortcut | Action |
+|----------|--------|
+| `Z` | Undo — step back one state |
+| `Shift`+`Z` | Redo — step forward one state |
+
+Clicking a thumbnail in the strip is equivalent to a `jumpTo` operation and works independently from the sequential undo/redo keys. All three update the same index, so they stay in sync.
+
+<Tip>
+  If you have undone several steps and then click a past thumbnail, that thumbnail becomes the new current state and is pushed onto the stack. You can redo back to where you clicked if needed.
+</Tip>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Generating palettes" icon="wand-sparkles" href="/guides/generating-palettes">
+    Learn how rerolling and color relationships create new palette states.
+  </Card>
+  <Card title="Locking colors" icon="lock" href="/guides/locking-colors">
+    Lock colors to keep them unchanged when rerolling.
+  </Card>
+  <Card title="Saving palettes" icon="floppy-disk" href="/guides/saving-palettes">
+    Persist a palette permanently to your browser library.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Full shortcut reference including H, Z, and Shift+Z.
+  </Card>
+</CardGroup>

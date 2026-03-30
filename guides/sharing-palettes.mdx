@@ -1,0 +1,82 @@
+---
+title: "Sharing palettes"
+description: "Copy a link that encodes your palette colors directly in the URL. Anyone who opens the link sees the exact same palette, with lock states preserved."
+---
+
+Press `C` to copy a share link to your clipboard. The link encodes your current palette colors (and optionally their lock states) as URL parameters, so no account or server is needed — the entire palette lives in the URL.
+
+## URL format
+
+Share links use the `?colors` query parameter. Each color is represented as a 6-character hex value **without** the `#` prefix, separated by hyphens:
+
+```
+https://example.com/?colors=ff5733-3498db-2ecc71
+```
+
+If any colors are locked, a `?locked` parameter is added alongside `?colors`. Each position maps to `1` (locked) or `0` (unlocked):
+
+```
+https://example.com/?colors=ff5733-3498db-2ecc71&locked=1-0-1
+```
+
+<Note>
+  The `?locked` parameter is only included when at least one color is locked. If no colors are locked, the parameter is omitted entirely.
+</Note>
+
+## Loading a shared palette
+
+When you visit a URL that contains a `?colors` parameter, the app automatically loads the encoded palette on startup:
+
+1. The colors in the URL replace the current palette.
+2. Lock states are restored from the `?locked` parameter, if present. If the `?locked` parameter is absent, **all loaded colors are locked by default** so you can reroll the unlocked positions freely.
+3. The URL parameters are cleared from the browser's address bar (`history.replaceState`) after loading, so sharing or bookmarking the page afterwards does not re-encode the palette.
+
+<Tip>
+  Because all colors default to locked when loading from a URL, you can immediately press `R` to reroll and generate new palettes that keep the shared colors as anchors.
+</Tip>
+
+## Lock states in share links
+
+When you press `C`, the current lock state of every color is included in the link. This means the recipient sees the same locked/unlocked configuration you had when you copied the link.
+
+Lock states are encoded as a `-`-separated string of `1`s and `0`s in positional order. The app pads or trims the `?locked` value to match the number of colors in `?colors` if they ever differ.
+
+## Practical uses
+
+<AccordionGroup>
+  <Accordion title="Share with a team">
+    Generate a palette you like, press `C`, and paste the link in a chat or email. Your team opens the exact same palette in their browser with no sign-up required.
+  </Accordion>
+  <Accordion title="Save a specific palette state">
+    Bookmark the share link to save a palette outside of the browser's local storage. This is useful when switching between devices or sharing across browsers.
+  </Accordion>
+  <Accordion title="Embed in messages or documents">
+    Paste the link directly into a Notion page, Slack message, Jira ticket, or any tool that renders URLs. Anyone who clicks it opens the palette instantly.
+  </Accordion>
+  <Accordion title="Anchor colors for a team reroll">
+    Share a link with specific colors locked. Recipients load the palette, unlock the colors they want to vary, and reroll to explore variations around your shared anchors.
+  </Accordion>
+</AccordionGroup>
+
+## Limitations
+
+- The URL encodes hex values only — color names, tags, and collection metadata are not included.
+- Very long palettes (many colors) can produce long URLs, though in practice palettes are small enough that this is not an issue.
+- The share link reflects the palette at the moment you pressed `C`. If you make changes afterwards, press `C` again to get a fresh link.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Locking colors" icon="lock" href="/guides/locking-colors">
+    Lock individual colors to keep them fixed during rerolls.
+  </Card>
+  <Card title="Saving palettes" icon="floppy-disk" href="/guides/saving-palettes">
+    Persist palettes to your browser library with names, tags, and collections.
+  </Card>
+  <Card title="Exporting palettes" icon="file-down" href="/guides/exporting-palettes">
+    Download your palette as CSS, JSON, Tailwind, or art app formats.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Full shortcut reference including C for copying a share link.
+  </Card>
+</CardGroup>

@@ -1,0 +1,76 @@
+---
+title: "Color editing"
+description: "Edit any color in your palette directly — type a hex value, use the HSL/Oklch sliders, or pick from the screen with the eyedropper."
+---
+
+Every palette item can be edited inline. There is no modal to open — the hex label becomes a text input for entering a hex value, the color preview updates live as you type, and you confirm or cancel without leaving the palette.
+
+## Entering edit mode
+
+There are two ways to start editing a color:
+
+- **Click the pencil icon** that appears in the row of action buttons below any palette item. The hex label is replaced by an editable text input in-place.
+- **Press `Shift`+`Alt`+`1`–`9`,`0`** to jump straight into edit mode for a specific color by position. Key `1` edits the first color, `2` the second, and so on. Key `0` edits the tenth.
+
+<Note>
+  Keyboard shortcuts use `event.code` so they work correctly on all keyboard layouts regardless of what character the digit key produces.
+</Note>
+
+## Live hex preview
+
+While the input is open, the palette item's color swatch updates in real time as you type. The preview follows valid hex values; partial or invalid input is ignored until you have a complete 6-character hex code.
+
+<Steps>
+  <Step title="Open edit mode">
+    Click the hex label under a color, or press `Shift`+`Alt` + the color's position key.
+  </Step>
+  <Step title="Type a hex value">
+    Enter a 6-character hex code (with or without the `#` prefix). The color swatch updates live as your input becomes valid.
+  </Step>
+  <Step title="Confirm or cancel">
+    - Press `Enter` to confirm and apply the new color.
+    - Press `Escape` or click anywhere outside the input to cancel. The color reverts to its original value.
+  </Step>
+</Steps>
+
+### Invalid input behavior
+
+If you press `Enter` while the input contains an invalid hex value, the input briefly flashes red and stays open in edit mode. You must either fix the value or press `Escape` to cancel.
+
+## Color picker (HSL / Oklch sliders)
+
+When edit mode is active, a **`•` dot button** appears to the left of the hex input. Clicking it opens a popover with slider-based color pickers:
+
+- **HSL mode** — three sliders for hue (0–360°), saturation (0–100%), and lightness (0–100%), each with a color-gradient track.
+- **Oklch mode** — three sliders for lightness (0–100%), chroma (0–40, mapped from 0–0.4), and hue (0–360°). Oklch is a perceptually uniform space, so equal slider moves feel like equal visual changes.
+
+A toggle at the top of the popover switches between HSL and Oklch modes. Changes apply immediately to the palette item live preview. The hex input updates to reflect the new value.
+
+## EyeDropper in edit mode
+
+When edit mode is active on a **Chromium-based browser** (Chrome, Edge, Arc, Brave), a pipette icon appears in the input area. Clicking it launches the native `EyeDropper` API, which lets you sample any color visible on your screen — including outside the browser window.
+
+<Tip>
+  The picked color fills the hex input immediately, and the live preview updates before you confirm. Press `Enter` to apply it to the palette, or `Escape` to discard.
+</Tip>
+
+<Warning>
+  The `EyeDropper` API is not available in Firefox or Safari. On those browsers the pipette icon does not appear in edit mode. Use the [eyedropper tool](/guides/eyedropper) for a cross-browser fallback when adding new colors.
+</Warning>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Eyedropper" icon="eye-dropper" href="/guides/eyedropper">
+    Pick colors from anywhere on screen and add them to your palette.
+  </Card>
+  <Card title="Color variations" icon="swatchbook" href="/guides/color-variations">
+    Explore tints, shades, and tones generated from any palette color.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Full list of shortcuts including per-color edit commands.
+  </Card>
+  <Card title="Color naming" icon="tag" href="/guides/color-naming">
+    How colors get their human-readable names.
+  </Card>
+</CardGroup>

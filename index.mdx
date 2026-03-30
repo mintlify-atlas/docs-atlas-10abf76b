@@ -1,97 +1,79 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Color Palette"
+description: "A free, browser-based color palette generator. No accounts, no ads, no paywalls — everything runs in your browser."
 ---
 
-## Setting up
+Generate beautiful color palettes using color theory, check accessibility compliance, and export to code or design apps — all for free, forever.
 
-Get your documentation site up and running in minutes.
-
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Quick start" icon="rocket" href="/quickstart">
+    Get up and running in minutes. Generate your first palette with color theory relationships.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Color relationships" icon="circle-nodes" href="/guides/color-relationships">
+    Explore complementary, analogous, triadic, and more color theory modes.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Accessibility tools" icon="eye" href="/guides/contrast-checker">
+    Check WCAG contrast ratios and simulate color blindness conditions.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Export formats" icon="download" href="/reference/export-formats">
+    Export to CSS, Tailwind, SCSS, JSON, Photoshop, Procreate, GIMP, and more.
   </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## What you can do
 
-Everything you need to create world-class documentation.
+<CardGroup cols={3}>
+  <Card title="Generate palettes" icon="palette" href="/guides/generating-palettes">
+    Create harmonious palettes using 7 color theory relationships.
+  </Card>
+  <Card title="Quick presets" icon="wand-magic-sparkles" href="/guides/presets">
+    One-click palette styles: pastel, neon, earth tones, jewel, and more.
+  </Card>
+  <Card title="Lock colors" icon="lock" href="/guides/locking-colors">
+    Keep favorite colors while rerolling the rest.
+  </Card>
+  <Card title="Gradient generator" icon="gradient" href="/guides/gradient-generator">
+    Build linear gradients from your palette and export to CSS, SVG, or PNG.
+  </Card>
+  <Card title="Extract from image" icon="image" href="/guides/extract-from-image">
+    Drag in any image to extract its dominant colors automatically.
+  </Card>
+  <Card title="Preview mode" icon="desktop" href="/guides/preview-mode">
+    See your palette applied to a live UI mockup or typography layout.
+  </Card>
+</CardGroup>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## Everything is free
 
-## Need inspiration?
+Color Palette gives away features that competitors charge for:
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+| Feature | Color Palette | Coolors Pro ($3.49/mo) |
+|---------|:---:|:---:|
+| Contrast checker | ✓ | Paid |
+| Color variations (tints/shades/tones) | ✓ | Paid |
+| Up to 10 colors per palette | ✓ | Paid (5 colors free) |
+| Advanced code exports | ✓ | Paid |
+| Color blindness simulation | ✓ | Paid |
+| Unlimited saves | ✓ | Paid |
+| Dark mode | ✓ | Paid |
+
+No accounts required. No data leaves your browser. Your palettes are stored in localStorage on your device.
+
+## Keyboard-first design
+
+Every action has a keyboard shortcut. Press <kbd>/</kbd> at any time to see all shortcuts, or browse the [keyboard shortcuts reference](/reference/keyboard-shortcuts).
+
+<Steps>
+  <Step title="Open the app">
+    Visit [karan-gera.github.io/color-palette](https://karan-gera.github.io/color-palette/) — no install required.
+  </Step>
+  <Step title="Generate a palette">
+    Press <kbd>R</kbd> to reroll colors, or <kbd>Q</kbd> to cycle through color relationship modes.
+  </Step>
+  <Step title="Lock your favorites">
+    Press <kbd>1</kbd>–<kbd>9</kbd> or <kbd>0</kbd> to lock individual colors, then reroll the rest.
+  </Step>
+  <Step title="Export your palette">
+    Press <kbd>E</kbd> to export to CSS, Tailwind, SCSS, JSON, or any design app format.
+  </Step>
+</Steps>

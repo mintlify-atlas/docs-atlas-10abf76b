@@ -1,0 +1,142 @@
+---
+title: "Introduction"
+description: "Color Palette is a free, browser-based color palette generator. No accounts, no ads, no paywalls — everything runs in your browser and stays on your device."
+---
+
+Color Palette generates harmonious color palettes using color theory, checks accessibility compliance, and exports to code or design apps. It is free to use, forever — no account required.
+
+## What is Color Palette?
+
+Color Palette is a tool built on the principle that professional color tooling should be accessible to everyone. It runs entirely in your browser. No data is sent to any server. Your palettes live in `localStorage` on your device and go nowhere unless you export them yourself.
+
+The color math — HSL/hex conversion, harmony scoring, contrast calculations, color relationship generation, and perceptual color space transformations — is all implemented from scratch in TypeScript. There are no third-party color libraries.
+
+<Note>
+  Visit the live app at [karan-gera.github.io/color-palette](https://karan-gera.github.io/color-palette/) — no installation or sign-up needed.
+</Note>
+
+## Core features
+
+<CardGroup cols={2}>
+  <Card title="Palette generation" icon="palette" href="/guides/generating-palettes">
+    Generate colors using 7 color theory relationships: complementary, analogous, triadic, tetradic, split-complementary, monochromatic, and random. Up to 10 colors per palette.
+  </Card>
+  <Card title="Color relationships" icon="circle-nodes" href="/guides/color-relationships">
+    Every generated color is mathematically derived from the locked colors in your palette. Lock a color and the relationship engine uses it as the anchor for new generations.
+  </Card>
+  <Card title="Palette presets" icon="wand-magic-sparkles" href="/guides/presets">
+    One-click palette styles: Pastel, Neon, Earth Tones, Jewel Tones, Monochrome, Warm, Cool, and Muted. Each preset constrains HSL ranges for consistent results.
+  </Card>
+  <Card title="Lock colors" icon="lock" href="/guides/locking-colors">
+    Press a number key to lock any color in place, then reroll the rest. Locked colors become the reference for generating new ones.
+  </Card>
+  <Card title="Gradient generator" icon="gradient" href="/guides/gradient-generator">
+    Build linear gradients from your palette colors and export to CSS, SVG, or PNG.
+  </Card>
+  <Card title="Extract from image" icon="image" href="/guides/extract-from-image">
+    Drag any image into the app to extract its dominant colors automatically.
+  </Card>
+  <Card title="Color editing" icon="pen-to-square" href="/guides/color-editing">
+    Edit any color directly using the color picker or by entering HSL, hex, or RGB values.
+  </Card>
+  <Card title="Color variations" icon="layer-group" href="/guides/color-variations">
+    Generate tints, shades, and tones for any color. Each variation scale has 9 steps.
+  </Card>
+  <Card title="Color naming" icon="tag" href="/guides/color-naming">
+    Colors are automatically identified against a 4,000+ entry database of named colors.
+  </Card>
+  <Card title="Contrast checker" icon="eye" href="/guides/contrast-checker">
+    Check WCAG contrast ratios for text on background. Supports both AA and AAA thresholds.
+  </Card>
+  <Card title="Color blindness simulation" icon="glasses" href="/guides/color-blindness-simulation">
+    Preview your palette as seen with deuteranopia, protanopia, tritanopia, or achromatopsia.
+  </Card>
+  <Card title="Harmony score" icon="star" href="/guides/harmony-score">
+    A 0–100 score rates how well your palette's hue organization, saturation consistency, and lightness range work together. Named relationships (complementary, triadic, etc.) receive a bonus.
+  </Card>
+</CardGroup>
+
+## What competitors charge for — that this gives away free
+
+Many professional color tools gate features behind a subscription. Color Palette ships all of these for free:
+
+| Feature | Color Palette | Coolors Pro ($3.49/mo) |
+|---------|:---:|:---:|
+| Contrast checker | ✓ | Paid |
+| Color variations (tints / shades / tones) | ✓ | Paid |
+| Up to 10 colors per palette | ✓ | Paid (5 colors free) |
+| Advanced code exports | ✓ | Paid |
+| Color blindness simulation | ✓ | Paid |
+| Unlimited saves | ✓ | Paid |
+| Dark mode | ✓ | Paid |
+
+## Copy and export formats
+
+### Copy a single color
+
+Click the hex label below any color swatch to open a format menu. Select the format you want — it is copied to your clipboard immediately. Six formats are supported (plus a "CSS Name" option when the color closely matches a CSS named color):
+
+- **HEX** — `#3b82f6`
+- **RGB** — `rgb(59, 130, 246)`
+- **HSL** — `hsl(217, 91%, 60%)`
+- **CSS Variable** — `--color-primary: #3b82f6;`
+- **Tailwind** — `'primary': '#3b82f6'`
+- **SCSS** — `$color-primary: #3b82f6;`
+
+### Export your full palette
+
+Export the entire palette to a file or copy it to your clipboard:
+
+**Code formats:** CSS Variables (`.css`), JSON (`.json`), Tailwind Config (`.js`), SCSS Variables (`.scss`)
+
+**Art app formats:** Adobe ASE (`.ase`) for Photoshop / Illustrator / Clip Studio Paint, Adobe ACO (`.aco`) for Photoshop, Procreate Swatches (`.swatches`), GIMP / Krita Palette (`.gpl`), Paint.NET Palette (`.txt`)
+
+See the full [export formats reference](/reference/export-formats) for import instructions for each app.
+
+## Privacy model
+
+Your palettes never leave your device unless you explicitly export them:
+
+- Palette data is stored in `localStorage`
+- No analytics, no telemetry, no user accounts
+- No server — the app is a static site
+- Share links encode palette data in the URL itself; nothing is stored server-side
+
+## Tech stack
+
+Color Palette is built with:
+
+- **React 19** with TypeScript
+- **Vite** for builds
+- **Tailwind CSS v4** and shadcn/ui for the interface
+- **Framer Motion** for animations
+- **Custom color math** — all HSL/hex conversion, color relationships, contrast calculations, and perceptual color space transformations (Oklab, Oklch) are implemented from scratch with no color library dependencies
+
+## Keyboard-first design
+
+Every action in Color Palette has a keyboard shortcut. Press `/` at any time to see the full shortcut reference, or browse the [keyboard shortcuts reference](/reference/keyboard-shortcuts).
+
+Common shortcuts:
+
+| Key | Action |
+|-----|--------|
+| `R` | Reroll all unlocked colors |
+| `A` / `Space` | Add a color |
+| `1`–`9`, `0` | Lock / unlock color by position |
+| `Q` | Cycle color relationship |
+| `P` | Cycle palette preset |
+| `E` | Export palette |
+| `S` | Save palette |
+| `Z` / `Shift+Z` | Undo / redo |
+| `/` | Show all shortcuts |
+
+## Get started
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Generate your first palette, lock colors, copy a value, and export — step by step.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    The complete shortcut reference for every action in the app.
+  </Card>
+</CardGroup>
